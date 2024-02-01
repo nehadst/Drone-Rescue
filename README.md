@@ -22,7 +22,7 @@ The exploration strategy is for now to stop exploring as soon as we start. We st
 ### Compiling the project:
 
 ```
-mosser@azrael a2-template % mvn clean package
+>>> mvn clean package
 ...
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -30,7 +30,7 @@ mosser@azrael a2-template % mvn clean package
 [INFO] Total time:  0.960 s
 [INFO] Finished at: 2024-01-20T18:26:43-05:00
 [INFO] ------------------------------------------------------------------------
-mosser@azrael a2-template % 
+>>> 
 ```
 
 This creates one jar file in the `target` directory, named after the team identifier (i.e., team 00 uses `team00-1.0.jar`).
