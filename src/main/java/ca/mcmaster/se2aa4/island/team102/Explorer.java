@@ -65,6 +65,7 @@ public class Explorer implements IExplorerRaid {
                     case 1:
                         decision = d.verify_left();
                         break;
+                        
                     case 2:
                         decision = d.verify_right();
                         break;
