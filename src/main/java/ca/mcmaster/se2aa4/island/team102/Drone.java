@@ -140,11 +140,25 @@ public class Drone {
         return validDirections;
     }
 
-    public JSONObject turn(String direction) {
-        // Given a direction, return a JSONObject that allows the drone to turn in that direction if possible
+    private String getCWDirection() {
+        // Find the clockwise direction based on current heading
+
+        if (this.face.equals("N")) {
+            return "E";
+        } else if (this.face.equals("E")) {
+            return "S";
+        } else if (this.face.equals("S")) {
+            return "W";
+        } 
+        return "N";
+    }
+
+    public JSONObject turn() {
+        // Return a JSONObject that allows the drone to turn clockwise if possible
         
+        String CWDirection = getCWDirection();
         ArrayList<String> validDirections = getPossibleDirections();
-        if (!validDirections.contains(direction)) {
+        if (!validDirections.contains(CWDirection)) {
             throw new IllegalArgumentException("Cannot turn off of the map, make a U-turn, or turn in the direction of the current heading.");
         }
 
@@ -152,7 +166,7 @@ public class Drone {
         directionTurn.put("action", "heading");
 
         JSONObject directionParameters = new JSONObject();
-        directionParameters.put("direction", direction);
+        directionParameters.put("direction", CWDirection);
         directionTurn.put("parameters", directionParameters);
 
         // Remove after further testing
