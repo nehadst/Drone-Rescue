@@ -2,12 +2,17 @@ package ca.mcmaster.se2aa4.island.team102;
 
 import java.util.Stack;
 import org.json.JSONObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class Drone {
 
     int x, y;
+    int leftLimitX = 1;
+    int topLimitY = 1;
+    int rightLimitX;
+    int bottomLimitY;
     String face;
     Integer battery;
     State currentState = State.verifying;
@@ -86,7 +91,68 @@ public class Drone {
         return decision;
     }
 
-    public JSONObject turn() {
+    private ArrayList<String> getPossibleDirections() {
+        // Get possible directions given drone position
+
+        HashMap<String, String> possibleDirections = new HashMap<>();
+        ArrayList<String> validDirections = new ArrayList<>();
+
+        possibleDirections.put("N", "y");
+        possibleDirections.put("E", "y");
+        possibleDirections.put("S", "y");
+        possibleDirections.put("W", "y");
+
+        // Ensure that making a U-turn and turning in the direction already faced is impossible
+        if (this.face.equals("N")) {
+            possibleDirections.put("S", "n");
+            possibleDirections.put("N", "n");
+        } else if (this.face.equals("E")) {
+            possibleDirections.put("W", "n");
+            possibleDirections.put("E", "n");
+        } else if (this.face.equals("S")) {
+            possibleDirections.put("N", "n");
+            possibleDirections.put("S", "n");
+        } else {
+            possibleDirections.put("E", "n");
+            possibleDirections.put("W", "n");
+        }
+
+        // Ensure drone can't go off the map
+        if (x == leftLimitX) {
+            possibleDirections.put("W", "n");
+        }
+        if (x == rightLimitX) {
+            possibleDirections.put("E", "n");
+        }
+        if (y == topLimitY) {
+            possibleDirections.put("N", "n");
+        }
+        if (y == bottomLimitY) {
+            possibleDirections.put("S", "n");
+        }
+        
+        for (String direction : possibleDirections.keySet()) {
+            if (possibleDirections.get(direction).equals("y")) {
+                validDirections.add(direction);
+            }
+        }
+
+        return validDirections;
+    }
+
+    public JSONObject turn(String direction) {
+        // Given a direction, return a JSONObject that allows the drone to turn in that direction if possible
+        
+        ArrayList<String> validDirections = getPossibleDirections();
+        if (direction == this.face) {
+            throw new IllegalArgumentException("Cannot turn in the direction already being faced.");
+        }
+        if (!validDirections.contains(direction)) {
+            throw new IllegalArgumentException("Cannot turn off of the map or make a U-turn.");
+        }
+
+        JSONObject directionTurn = new JSONObject();
+
 
         throw new UnsupportedOperationException("Unimplemented method 'turn'");
     }
