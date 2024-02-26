@@ -144,17 +144,21 @@ public class Drone {
         // Given a direction, return a JSONObject that allows the drone to turn in that direction if possible
         
         ArrayList<String> validDirections = getPossibleDirections();
-        if (direction == this.face) {
-            throw new IllegalArgumentException("Cannot turn in the direction already being faced.");
-        }
         if (!validDirections.contains(direction)) {
-            throw new IllegalArgumentException("Cannot turn off of the map or make a U-turn.");
+            throw new IllegalArgumentException("Cannot turn off of the map, make a U-turn, or turn in the direction of the current heading.");
         }
 
         JSONObject directionTurn = new JSONObject();
+        directionTurn.put("action", "heading");
 
+        JSONObject directionParameters = new JSONObject();
+        directionParameters.put("direction", direction);
+        directionTurn.put("parameters", directionParameters);
 
+        // Remove after further testing
         throw new UnsupportedOperationException("Unimplemented method 'turn'");
+        
+        // return directionTurn;    
     }
 
     public JSONObject fly() {
