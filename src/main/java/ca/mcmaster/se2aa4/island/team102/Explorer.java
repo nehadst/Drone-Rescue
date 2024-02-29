@@ -140,14 +140,12 @@ public class Explorer implements IExplorerRaid {
                 JSONArray creeks = parser.get_creeks(extraInfo);
                 JSONArray sites = parser.get_sites(extraInfo);
                 if (creeks.length() > 0) {
-                    d.currentState = State.stopping;
                     logger.info("Found creek!");
                 } else if (sites.length() > 0) {
-                    d.currentState = State.stopping;
                     logger.info("Found emergency site!");
-                } else {
-                    d.currentState = State.asking_front;
                 }
+                d.currentState = State.asking_front;
+                
                 break;
                 
 
