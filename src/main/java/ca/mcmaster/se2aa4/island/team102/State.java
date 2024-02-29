@@ -8,7 +8,9 @@ public enum State {
     found_creek, 
     returning, 
     stopping,
-    verifying,
+    asking_front,
+    asking_left,
+    asking_right,
     turning
 
 }
