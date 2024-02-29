@@ -31,4 +31,10 @@ public class Drone {
         return decision;
     }
 
+    public JSONObject scan() {
+        JSONObject decision = new JSONObject();
+        decision.put("action", "scan");
+        return decision;
+    }
+
 }

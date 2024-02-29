@@ -15,6 +15,10 @@ public class MapMaker {
         map.put(heading, extraInfo);
     }
 
+    public MapMaker (Heading initial_heading) {
+        this.best_direction = initial_heading;
+    }
+
     public void choose() {
         Integer smallest_out_of_range = 1000;
 
@@ -25,13 +29,9 @@ public class MapMaker {
             String type = extraInfo.getString("found");
             // range should be an Integer (how far out of range or ground is)
             Integer range = extraInfo.getInt("range");
-            if (Objects.equals(type, "OUT_OF_RANGE") && range < smallest_out_of_range && range != 0) {
-                this.best_direction = direction;
-                smallest_out_of_range = range;
-            }
             // return range for ground as soon as we get it
             // since we know there will be only one ground in 4 directions
-            if (type == "GROUND") {
+            if (Objects.equals(type,"GROUND")) {
                 this.best_direction = direction;
                 break;
             }

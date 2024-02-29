@@ -5,12 +5,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import eu.ace_design.island.bot.IExplorerRaid;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import ca.mcmaster.se2aa4.island.team102.Compass.Heading;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -19,10 +22,11 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
     private int initial_budget;
     private int current_budget;
-    private MapMaker theMap = new MapMaker();
+    private MapMaker theMap;
     private Echoer echoer = new Echoer();
     private Drone d = new Drone();
     private Compass compass;
+    private ScanParser parser = new ScanParser();
 
     @Override
     public void initialize(String s) {
@@ -31,6 +35,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initialization info:\n {}",info.toString(2));
         Heading initial_heading = Heading.valueOf(info.getString("heading"));
         compass = new Compass(initial_heading);
+        theMap = new MapMaker(initial_heading);
         d.battery = info.getInt("budget");
         d.currentState = State.asking_front;
         logger.info("The drone is currently facing {}", initial_heading.name());
@@ -43,14 +48,14 @@ public class Explorer implements IExplorerRaid {
     private void emergency_return(){
         if (current_budget <= initial_budget / 2) {
             logger.info("The drone is returning to the starting point due to low battery");
-            d.currentState = State.returning;
+            d.currentState = State.stopping;
         }
     }
 
     @Override
     public String takeDecision() {
 
-        JSONObject decision = new JSONObject();
+        JSONObject decision;
         emergency_return();
         switch (d.currentState) {
 
@@ -75,24 +80,15 @@ public class Explorer implements IExplorerRaid {
                 }
                 break;
 
-            // TODO
-            // case scanning:
-            //     decision.put("action", "scan");
-            //     // boolean creekFound = ProcessingScans(); I will implement this method later
-            //     // currentState = creekFound ? State.found_creek : State.exploring; 
-            //     counter = 0;
-            //     currentState = State.exploring;
-            //     break;
-            // case found_creek:
-            //     currentState = State.returning;
-            //     break;
-
-            case returning:
-                d.currentState = State.stopping;
-                break;
-                    
+            case scanning:
+                decision = d.scan();
+                break;                    
             case stopping:
-                decision.put("action", "stop");   
+                decision = d.stop(); 
+                break;
+
+            default:
+                decision = d.stop();
                 break;
         }
         logger.info("** Decision: {}",decision.toString());
@@ -133,11 +129,28 @@ public class Explorer implements IExplorerRaid {
                 d.currentState = State.exploring;
                 break;
 
-            // after flight, go back to verification of neighbors and change heading of compass
+            // after flight, change heading of compass and go to scanning
             case exploring:
                 compass.heading = theMap.best_direction;
-                d.currentState = State.asking_front;
+                d.currentState = State.scanning;
                 break;
+
+            // after scanning go back to verification of neighbors if no creeks or sites
+            case scanning:
+                JSONArray creeks = parser.get_creeks(extraInfo);
+                JSONArray sites = parser.get_sites(extraInfo);
+                if (creeks.length() > 0) {
+                    d.currentState = State.stopping;
+                    logger.info("Found creek!");
+                } else if (sites.length() > 0) {
+                    d.currentState = State.stopping;
+                    logger.info("Found emergency site!");
+                } else {
+                    d.currentState = State.asking_front;
+                }
+                break;
+                
+
         }
      
     }
