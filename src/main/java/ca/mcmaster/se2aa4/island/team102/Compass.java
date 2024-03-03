@@ -57,7 +57,8 @@ public class Compass {
     }
 
     public Location peekCoordinates(Heading best_direction) {
-        return newCoordinates(best_direction);
+        Location change_in_loc = newCoordinates(best_direction);
+        return loc.calculate(change_in_loc);
     }
 
     public void addVisitedLocation(Location loc) {

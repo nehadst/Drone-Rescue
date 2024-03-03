@@ -136,10 +136,18 @@ public class Explorer implements IExplorerRaid {
                 // if (theMap.is_stuck()) {
                 //     logger.info("STUCK");
                 // }
-                theMap.choose();
-                theMap.reset();
-                logger.info("The best direction to travel in is {}", theMap.best_direction);
-                d.currentState = State.exploring;
+                try {
+                    theMap.choose();
+                    theMap.reset();
+                    logger.info("The best direction to travel in is {}", theMap.best_direction);
+                    d.currentState = State.exploring;
+
+                // in case we're stuck (all neighbours visited) then stop
+                } catch (Exception e) {
+                    logger.info("STUCK");
+                    d.currentState = State.stopping;
+                }
+
                 break;
 
             // after flight, change heading of compass and go to scanning
@@ -162,14 +170,6 @@ public class Explorer implements IExplorerRaid {
                 else {
                     d.currentState = State.asking_front;
                 }
-
-                // if (compass.alreadyVisited()) {
-                //     theMap.looking_for = "OUT_OF_RANGE";
-                // }
-                // else {
-                //     theMap.looking_for = "GROUND";
-                // }                
-                // break;
                 
 
         }
