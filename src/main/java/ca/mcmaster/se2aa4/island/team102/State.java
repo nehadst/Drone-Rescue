@@ -1,3 +1,4 @@
+
 package ca.mcmaster.se2aa4.island.team102;
 
 
@@ -13,4 +14,3 @@ public enum State {
     asking_right,
     turning
 
-}

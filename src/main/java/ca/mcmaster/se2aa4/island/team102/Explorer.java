@@ -46,6 +46,7 @@ public class Explorer implements IExplorerRaid {
     }
 
     private void emergency_return(){
+        // If in any emergency state such as low battery, return immediately
         if (current_budget <= initial_budget / 2) {
             logger.info("The drone is returning to the starting point due to low battery");
             d.currentState = State.stopping;
