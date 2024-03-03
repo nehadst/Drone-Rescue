@@ -35,7 +35,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initialization info:\n {}",info.toString(2));
         Heading initial_heading = Heading.valueOf(info.getString("heading"));
         compass = new Compass(initial_heading);
-        theMap = new MapMaker(initial_heading);
+        theMap = new MapMaker(initial_heading, compass);
         d.battery = info.getInt("budget");
         d.currentState = State.asking_front;
         logger.info("The drone is currently facing {}", initial_heading.name());
@@ -82,11 +82,11 @@ public class Explorer implements IExplorerRaid {
                 Location new_location = compass.getCoordinates();
                 logger.info("The drone has moved to coordinates {} {}", new_location.x, new_location.y);
                 if (compass.alreadyVisited(new_location)) {
-                    logger.info("The drone has already visited these coordinates");
-                    d.currentState = State.stopping;
-                }
-                else {
+                    logger.info("The drone has already visited these coordinates");  
+                    // theMap.looking_for = "OUT_OF_RANGE";
+                } else {
                     compass.addVisitedLocation(new_location);
+                    // theMap.looking_for = "GROUND";
                 }
                 break;
 
@@ -133,6 +133,9 @@ public class Explorer implements IExplorerRaid {
 
             case asking_right:
                 theMap.put(compass.getRightHeading(), extraInfo); 
+                // if (theMap.is_stuck()) {
+                //     logger.info("STUCK");
+                // }
                 theMap.choose();
                 theMap.reset();
                 logger.info("The best direction to travel in is {}", theMap.best_direction);
@@ -161,7 +164,7 @@ public class Explorer implements IExplorerRaid {
                 }
 
                 // if (compass.alreadyVisited()) {
-                //     theMap.looking_for = "OCEAN";
+                //     theMap.looking_for = "OUT_OF_RANGE";
                 // }
                 // else {
                 //     theMap.looking_for = "GROUND";
