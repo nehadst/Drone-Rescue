@@ -78,6 +78,16 @@ public class Explorer implements IExplorerRaid {
                 } else {
                     decision = d.turn(theMap.best_direction);
                 }
+                compass.updateCoordinates(theMap.best_direction);
+                Location new_location = compass.getCoordinates();
+                logger.info("The drone has moved to coordinates {} {}", new_location.x, new_location.y);
+                if (compass.alreadyVisited(new_location)) {
+                    logger.info("The drone has already visited these coordinates");
+                    d.currentState = State.stopping;
+                }
+                else {
+                    compass.addVisitedLocation(new_location);
+                }
                 break;
 
             case scanning:
@@ -141,12 +151,22 @@ public class Explorer implements IExplorerRaid {
                 JSONArray sites = parser.get_sites(extraInfo);
                 if (creeks.length() > 0) {
                     logger.info("Found creek!");
+                    d.currentState = State.asking_front;
                 } else if (sites.length() > 0) {
                     logger.info("Found emergency site!");
+                    d.currentState = State.stopping;
                 }
-                d.currentState = State.asking_front;
-                
-                break;
+                else {
+                    d.currentState = State.asking_front;
+                }
+
+                // if (compass.alreadyVisited()) {
+                //     theMap.looking_for = "OCEAN";
+                // }
+                // else {
+                //     theMap.looking_for = "GROUND";
+                // }                
+                // break;
                 
 
         }

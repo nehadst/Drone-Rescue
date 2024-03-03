@@ -5,7 +5,7 @@ import ca.mcmaster.se2aa4.island.team102.Compass.Heading;
 
 public class Drone {
 
-    Location loc = new Location(0, 0);
+    
     Integer battery;
     State currentState;
 

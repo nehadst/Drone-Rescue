@@ -10,6 +10,7 @@ public class MapMaker {
     int map_capacity = 4;
     LinkedHashMap<Heading, JSONObject> map = new LinkedHashMap<>(map_capacity);
     Heading best_direction;
+    String looking_for = "GROUND";
 
     public void put(Heading heading, JSONObject extraInfo) {
         map.put(heading, extraInfo);
@@ -31,7 +32,7 @@ public class MapMaker {
             Integer range = extraInfo.getInt("range");
             // return range for ground as soon as we get it
             // same direction of ground will be given in orderedmap
-            if (Objects.equals(type,"GROUND")) {
+            if (Objects.equals(type, this.looking_for)) {
                 this.best_direction = direction;
                 break;
             }

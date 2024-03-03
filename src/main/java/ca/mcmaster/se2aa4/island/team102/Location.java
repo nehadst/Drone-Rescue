@@ -7,6 +7,11 @@ public class Location {
         this.y = _y;
     }
 
+    public void update(Location change_in_loc) {
+        this.x += change_in_loc.x;
+        this.y += change_in_loc.y;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
