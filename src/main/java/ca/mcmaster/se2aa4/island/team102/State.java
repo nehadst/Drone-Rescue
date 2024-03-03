@@ -1,3 +1,4 @@
+
 package ca.mcmaster.se2aa4.island.team102;
 
 
@@ -8,7 +9,8 @@ public enum State {
     found_creek, 
     returning, 
     stopping,
-    verifying,
+    asking_front,
+    asking_left,
+    asking_right,
     turning
 
-}
