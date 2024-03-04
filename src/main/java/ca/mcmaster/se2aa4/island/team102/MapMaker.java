@@ -1,28 +1,50 @@
 package ca.mcmaster.se2aa4.island.team102;
-
+import java.util.Random;
 import java.util.Set;
 import java.util.Objects;
 import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import org.json.JSONObject;
+import java.util.Optional;
 import ca.mcmaster.se2aa4.island.team102.Compass.Heading;
 
 public class MapMaker {
-    int map_capacity = 4;
+    int map_capacity = 3;
     LinkedHashMap<Heading, JSONObject> map = new LinkedHashMap<>(map_capacity);
     Heading best_direction;
     String looking_for = "GROUND";
+    Compass map_compass;
 
     public void put(Heading heading, JSONObject extraInfo) {
         map.put(heading, extraInfo);
     }
 
-    public MapMaker (Heading initial_heading) {
+    public MapMaker (Heading initial_heading, Compass compass) {
         this.best_direction = initial_heading;
+        this.map_compass = compass;
     }
 
-    public void choose() {
-        Integer smallest_out_of_range = 1000;
-        Set<Heading> keys = map.keySet();
+    public boolean is_stuck() {
+        List<Heading> keys = new ArrayList<>(map.keySet());
+
+        for (Heading direction : keys) {
+            JSONObject extraInfo = map.get(direction);
+            if (!this.map_compass.alreadyVisited(this.map_compass.peekCoordinates(direction))) {
+                return false;
+            }            
+        }
+        return true;
+
+    }
+
+    public void choose() throws Exception {
+        List<Heading> keys = new ArrayList<>(map.keySet());
+
+        if (this.is_stuck()) {
+            throw new Exception("STUCK");
+        }
 
         for (Heading direction : keys) {
             JSONObject extraInfo = map.get(direction);
@@ -32,12 +54,14 @@ public class MapMaker {
             Integer range = extraInfo.getInt("range");
             // return range for ground as soon as we get it
             // same direction of ground will be given in orderedmap
-            if (Objects.equals(type, this.looking_for)) {
+            if (Objects.equals(type, this.looking_for)
+                && !this.map_compass.alreadyVisited(this.map_compass.peekCoordinates(direction))) {
                 this.best_direction = direction;
-                break;
+                return;
             }
             
         }
+
 
     }
 
@@ -48,6 +72,5 @@ public class MapMaker {
     public int size() {
         return map.size();
     }
-
-
 }
+

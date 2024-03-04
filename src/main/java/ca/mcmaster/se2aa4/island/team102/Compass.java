@@ -48,12 +48,17 @@ public class Compass {
     Heading getHeading() { return heading; }
     Heading getLeftHeading() { return convert_to_left.get(this.heading); }
     Heading getRightHeading() { return convert_to_right.get(this.heading); }
-    Location new_coordinates(Heading best_direction) { return this.update_coordinates.get(Arrays.asList(this.heading, best_direction)); }
+    Location newCoordinates(Heading best_direction) { return this.update_coordinates.get(Arrays.asList(this.heading, best_direction)); }
 
 
     public void updateCoordinates(Heading best_direction) {
-        Location change_in_loc = new_coordinates(best_direction);
+        Location change_in_loc = newCoordinates(best_direction);
         loc.update(change_in_loc);
+    }
+
+    public Location peekCoordinates(Heading best_direction) {
+        Location change_in_loc = newCoordinates(best_direction);
+        return loc.calculate(change_in_loc);
     }
 
     public void addVisitedLocation(Location loc) {

@@ -27,6 +27,7 @@ public class Explorer implements IExplorerRaid {
     private Drone d = new Drone();
     private Compass compass;
     private ScanParser parser = new ScanParser();
+    private Tracker tracker = new Tracker();
 
     @Override
     public void initialize(String s) {
@@ -35,7 +36,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initialization info:\n {}",info.toString(2));
         Heading initial_heading = Heading.valueOf(info.getString("heading"));
         compass = new Compass(initial_heading);
-        theMap = new MapMaker(initial_heading);
+        theMap = new MapMaker(initial_heading, compass);
         d.battery = info.getInt("budget");
         d.currentState = State.asking_front;
         logger.info("The drone is currently facing {}", initial_heading.name());
@@ -79,15 +80,18 @@ public class Explorer implements IExplorerRaid {
                 } else {
                     decision = d.turn(theMap.best_direction);
                 }
+                
                 compass.updateCoordinates(theMap.best_direction);
                 Location new_location = compass.getCoordinates();
+                
+                // double check if we have landed on an already visited spot
                 logger.info("The drone has moved to coordinates {} {}", new_location.x, new_location.y);
                 if (compass.alreadyVisited(new_location)) {
-                    logger.info("The drone has already visited these coordinates");
-                    d.currentState = State.stopping;
-                }
-                else {
+                    logger.info("The drone has already visited these coordinates");  
+                    // theMap.looking_for = "OUT_OF_RANGE";
+                } else {
                     compass.addVisitedLocation(new_location);
+                    // theMap.looking_for = "GROUND";
                 }
                 break;
 
@@ -120,6 +124,12 @@ public class Explorer implements IExplorerRaid {
         logger.info("Additional information received: {}", extraInfo);
 
         // if we need to add "extras" to map
+        // combos tried:
+        /* F L R
+         * L F R
+         * 
+         * 
+         */
         switch (d.currentState) {
 
             case asking_front:
@@ -134,10 +144,22 @@ public class Explorer implements IExplorerRaid {
 
             case asking_right:
                 theMap.put(compass.getRightHeading(), extraInfo); 
-                theMap.choose();
-                theMap.reset();
-                logger.info("The best direction to travel in is {}", theMap.best_direction);
-                d.currentState = State.exploring;
+                // if (theMap.is_stuck()) {
+                //     logger.info("STUCK");
+                // }
+                try {
+                    theMap.choose();
+                    theMap.reset();
+                    logger.info("The best direction to travel in is {}", theMap.best_direction);
+                    d.currentState = State.exploring;
+
+                // in case we're stuck (all neighbours visited) then make a uturn
+                } catch (Exception e) {
+                    logger.info("STUCK");
+                    logger.info("battery is {}", current_budget);
+                    d.currentState = State.stopping;
+                }
+
                 break;
 
             // after flight, change heading of compass and go to scanning
@@ -152,23 +174,13 @@ public class Explorer implements IExplorerRaid {
                 JSONArray sites = parser.get_sites(extraInfo);
                 if (creeks.length() > 0) {
                     logger.info("Found creek!");
-                    d.currentState = State.asking_front;
+                    tracker.add_creek(creeks.getString(0), this.compass.getCoordinates());
                 } else if (sites.length() > 0) {
                     logger.info("Found emergency site!");
-                    d.currentState = State.stopping;
+                    tracker.add_emergency_site(sites.getString(0), this.compass.getCoordinates());
                 }
-                else {
-                    d.currentState = State.asking_front;
-                }
-
-                // if (compass.alreadyVisited()) {
-                //     theMap.looking_for = "OCEAN";
-                // }
-                // else {
-                //     theMap.looking_for = "GROUND";
-                // }                
-                // break;
-                
+                d.currentState = State.asking_front;
+                break;
 
         }
      
@@ -182,6 +194,10 @@ public class Explorer implements IExplorerRaid {
         // } catch (InterruptedException e) {
         //     e.printStackTrace();
         // }
+        logger.info("Contents of creek_map {}", tracker.creeks);
+        logger.info("Contents of emergency site map {}", tracker.emergency_site);
+        // TODO: Work on the algo more to ensure emergency site is found
+        // Other wise we cant use the tracker.find_closest_creek() method
         return "no creek found";
     }
 

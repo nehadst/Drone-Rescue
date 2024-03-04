@@ -12,6 +12,10 @@ public class Location {
         this.y += change_in_loc.y;
     }
 
+    public Location calculate(Location change_in_loc) {
+        return new Location(this.x + change_in_loc.x, this.y + change_in_loc.y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,5 +34,7 @@ public class Location {
         result = (prime * result) + x + y;
         return result;
     }
+
+
 }
 
