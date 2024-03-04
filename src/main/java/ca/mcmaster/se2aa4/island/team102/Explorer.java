@@ -27,7 +27,7 @@ public class Explorer implements IExplorerRaid {
     private Drone d = new Drone();
     private Compass compass;
     private ScanParser parser = new ScanParser();
-    private Tracker tracker;
+    private Tracker tracker = new Tracker();
 
     @Override
     public void initialize(String s) {
@@ -37,7 +37,6 @@ public class Explorer implements IExplorerRaid {
         Heading initial_heading = Heading.valueOf(info.getString("heading"));
         compass = new Compass(initial_heading);
         theMap = new MapMaker(initial_heading, compass);
-        tracker = new Tracker(compass);
         d.battery = info.getInt("budget");
         d.currentState = State.asking_front;
         logger.info("The drone is currently facing {}", initial_heading.name());
@@ -174,8 +173,10 @@ public class Explorer implements IExplorerRaid {
                 JSONArray sites = parser.get_sites(extraInfo);
                 if (creeks.length() > 0) {
                     logger.info("Found creek!");
+                    tracker.add_creek(creeks.getString(0), this.compass.getCoordinates());
                 } else if (sites.length() > 0) {
                     logger.info("Found emergency site!");
+                    tracker.add_emergency_site(sites.getString(0), this.compass.getCoordinates());
                 }
                 d.currentState = State.asking_front;
                 break;
@@ -192,6 +193,10 @@ public class Explorer implements IExplorerRaid {
         // } catch (InterruptedException e) {
         //     e.printStackTrace();
         // }
+        logger.info("Contents of creek_map {}", tracker.creeks);
+        logger.info("Contents of emergency site map {}", tracker.emergency_site);
+        // TODO: Work on the algo more to ensure emergency site is found
+        // Other wise we cant use the tracker.find_closest_creek() method
         return "no creek found";
     }
 
