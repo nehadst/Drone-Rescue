@@ -37,3 +37,4 @@ public class Drone {
         decision.put("action", "scan");
         return decision;
     }
+}
