@@ -10,13 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import ca.mcmaster.se2aa4.island.team102.Compass.Heading;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Stack;
-
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
@@ -28,6 +21,7 @@ public class Explorer implements IExplorerRaid {
     private Compass compass;
     private ScanParser parser = new ScanParser();
     private Tracker tracker = new Tracker();
+    private AlgorithmSelector selectedAlgorithm;
 
     @Override
     public void initialize(String s) {
@@ -44,6 +38,9 @@ public class Explorer implements IExplorerRaid {
         logger.info("The drone is currently in state {}", d.currentState);
         initial_budget = info.getInt("budget");
         current_budget = initial_budget;
+
+        // Select algorithm for the drone to use (PrimaryAlgorithm by defualt)
+        this.selectedAlgorithm = new PrimaryAlgorithm();
     }
 
     private void emergency_return(){
@@ -56,56 +53,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-
         JSONObject decision;
         emergency_return();
-        switch (d.currentState) {
-
-            // verify all drone neighbour directions (except behind)
-            case asking_front:
-                decision = echoer.ask(compass.getHeading());
-                break;
-
-            case asking_left:
-                decision = echoer.ask(compass.getLeftHeading());
-                break;
-
-            case asking_right:
-                decision = echoer.ask(compass.getRightHeading());
-                break;
-
-            case exploring:
-                if (Objects.equals(compass.heading, theMap.best_direction)) {
-                    decision = d.fly();
-                } else {
-                    decision = d.turn(theMap.best_direction);
-                }
-                
-                compass.updateCoordinates(theMap.best_direction);
-                Location new_location = compass.getCoordinates();
-                
-                // double check if we have landed on an already visited spot
-                logger.info("The drone has moved to coordinates {} {}", new_location.x, new_location.y);
-                if (compass.alreadyVisited(new_location)) {
-                    logger.info("The drone has already visited these coordinates");  
-                    // theMap.looking_for = "OUT_OF_RANGE";
-                } else {
-                    compass.addVisitedLocation(new_location);
-                    // theMap.looking_for = "GROUND";
-                }
-                break;
-
-            case scanning:
-                decision = d.scan();
-                break;                    
-            case stopping:
-                decision = d.stop(); 
-                break;
-
-            default:
-                decision = d.stop();
-                break;
-        }
+        decision = selectedAlgorithm.executeAlgorithm(d, compass, theMap, echoer);
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }

@@ -9,7 +9,6 @@ import java.util.HashSet;
 
 public class Compass {
 
-    public enum Heading { N, S, E, W }
     private Location loc = new Location(0, 0);
     private Map<List<Heading>, Location> update_coordinates = new HashMap<>();
     public Heading heading;

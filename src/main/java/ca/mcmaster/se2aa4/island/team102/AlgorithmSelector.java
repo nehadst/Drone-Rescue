@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team102;
 
+import org.json.JSONObject;
+
 public interface AlgorithmSelector {
-    public void initialize(String s);
-    public void emergency_return();
+    JSONObject executeAlgorithm(Drone d, Compass compass, MapMaker theMap, Echoer echoer);
 }
