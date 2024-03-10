@@ -40,7 +40,16 @@ public class Explorer implements IExplorerRaid {
         current_budget = initial_budget;
 
         // Select algorithm for the drone to use (PrimaryAlgorithm by defualt)
-        this.selectedAlgorithm = new PrimaryAlgorithm();
+        this.selectedAlgorithm = setAlgorithm(1);
+    }
+
+    private AlgorithmSelector setAlgorithm(Integer algorithmType) {
+        // If more algorithms are added, we can use a switch statement to select the algorithm
+        
+        switch (algorithmType) {
+            default:
+                return new PrimaryAlgorithm();
+        }
     }
 
     private void emergency_return(){
