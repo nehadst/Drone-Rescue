@@ -2,7 +2,6 @@
 package ca.mcmaster.se2aa4.island.team102;
 
 import org.json.JSONObject;
-import ca.mcmaster.se2aa4.island.team102.Compass.Heading;
 
 public class Drone {
 

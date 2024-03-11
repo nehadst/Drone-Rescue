@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.ArrayList;
 import org.json.JSONObject;
 import java.util.Optional;
-import ca.mcmaster.se2aa4.island.team102.Compass.Heading;
 
 public class MapMaker {
     int map_capacity = 3;
