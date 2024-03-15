@@ -1,16 +1,18 @@
 package ca.mcmaster.se2aa4.island.team102;
-import org.json.JSONArray;
+
 import org.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONTokener;
 import java.io.StringReader;
+import org.json.JSONArray;
+
 
 public class DefaultResultAcknowledger implements ResultAcknowledger {
     private static final Logger logger = LogManager.getLogger(DefaultResultAcknowledger.class);
     
     @Override
-    public void acknowledgeResults(JSONArray parser, Compass compass, MapMaker theMap, Tracker tracker, Drone d, State currentState, int current_budget, String s) {
+    public State executeAcknowledgement(ScanParser parser, Compass compass, MapMaker theMap, Tracker tracker, Drone d, State currentState, int current_budget, String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
         Integer cost = response.getInt("cost");
@@ -22,17 +24,15 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
         logger.info("Additional information received: {}", extraInfo);
 
         
-        switch (d.currentState) {
+        switch (currentState) {
 
             case asking_front:
                 theMap.put(compass.getHeading(), extraInfo);
-                d.currentState = State.asking_left;
-                break;
+                return State.asking_left;
 
             case asking_left:
                 theMap.put(compass.getLeftHeading(), extraInfo);
-                d.currentState = State.asking_right;
-                break;
+                return State.asking_right;
 
             case asking_right:
                 theMap.put(compass.getRightHeading(), extraInfo); 
@@ -43,28 +43,25 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
                     theMap.choose();
                     theMap.reset();
                     logger.info("The best direction to travel in is {}", theMap.best_direction);
-                    d.currentState = State.exploring;
+                    return State.exploring;
 
                 // in case we're stuck (all neighbours visited) then make a uturn
                 } catch (Exception e) {
                     logger.info("STUCK");
                     logger.info("battery is {}", current_budget);
-                    d.currentState = State.stopping;
+                    return State.stopping;
                 }
 
-                break;
 
             // after flight, change heading of compass and go to scanning
             case exploring:
                 compass.heading = theMap.best_direction;
-                d.currentState = State.scanning;
-                break;
+                return State.scanning;
 
             // after scanning go back to verification of neighbors if no creeks or sites
             case scanning:
-                JSONObject parserObject = new JSONObject(extraInfo.toString());
-                JSONArray creeks = parserObject.getJSONArray("creeks");
-                JSONArray sites = parserObject.getJSONArray("sites");
+                JSONArray creeks = parser.get_creeks(extraInfo);
+                JSONArray sites = parser.get_sites(extraInfo);
                 if (creeks.length() > 0) {
                     logger.info("Found creek!");
                     tracker.add_creek(creeks.getString(0), compass.getCoordinates());
@@ -72,9 +69,9 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
                     logger.info("Found emergency site!");
                     tracker.add_emergency_site(sites.getString(0), compass.getCoordinates());
                 }
-                d.currentState = State.asking_front;
-                break;
-
+                return State.asking_front;
+            default:
+                return State.stopping;
         }
      
     }

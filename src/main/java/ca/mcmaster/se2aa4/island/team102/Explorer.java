@@ -64,7 +64,9 @@ public class Explorer implements IExplorerRaid {
         }
     }
 
-    public void acknowledgeResults(String s) {}
+    public void acknowledgeResults(String s) {
+        d.currentState = resultAcknowledger.executeAcknowledgement(parser, compass, theMap, tracker, d, d.currentState, current_budget, s);
+    }
 
 
     private void emergency_return(){
