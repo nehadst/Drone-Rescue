@@ -22,6 +22,7 @@ public class Explorer implements IExplorerRaid {
     private ScanParser parser = new ScanParser();
     private Tracker tracker = new Tracker();
     private AlgorithmSelector selectedAlgorithm;
+    private DefaultResultAcknowledger resultAcknowledger;
 
     @Override
     public void initialize(String s) {
@@ -41,6 +42,17 @@ public class Explorer implements IExplorerRaid {
 
         // Select algorithm for the drone to use (PrimaryAlgorithm by defualt)
         this.selectedAlgorithm = setAlgorithm(1);
+        this.resultAcknowledger = new DefaultResultAcknowledger();
+    }
+
+
+    @Override
+    public String takeDecision() {
+        JSONObject decision;
+        emergency_return();
+        decision = selectedAlgorithm.executeAlgorithm(d, compass, theMap, echoer);
+        logger.info("** Decision: {}",decision.toString());
+        return decision.toString();
     }
 
     private AlgorithmSelector setAlgorithm(Integer algorithmType) {
@@ -52,6 +64,9 @@ public class Explorer implements IExplorerRaid {
         }
     }
 
+    public void acknowledgeResults(String s) {}
+
+
     private void emergency_return(){
         // If in any emergency state such as low battery, return immediately
         if (current_budget <= initial_budget / 2) {
@@ -59,91 +74,8 @@ public class Explorer implements IExplorerRaid {
             d.currentState = State.stopping;
         }
     }
-
-    @Override
-    public String takeDecision() {
-        JSONObject decision;
-        emergency_return();
-        decision = selectedAlgorithm.executeAlgorithm(d, compass, theMap, echoer);
-        logger.info("** Decision: {}",decision.toString());
-        return decision.toString();
-    }
-
-
-    @Override
-    public void acknowledgeResults(String s) {
-        JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Response received:\n"+response.toString(2));
-        Integer cost = response.getInt("cost");
-        current_budget -= cost;
-        logger.info("The cost of the action was {}", cost);
-        String status = response.getString("status");
-        logger.info("The status of the drone is {}", status);
-        JSONObject extraInfo = response.getJSONObject("extras");
-        logger.info("Additional information received: {}", extraInfo);
-
-        // if we need to add "extras" to map
-        // combos tried:
-        /* F L R
-         * L F R
-         * 
-         * 
-         */
-        switch (d.currentState) {
-
-            case asking_front:
-                theMap.put(compass.getHeading(), extraInfo);
-                d.currentState = State.asking_left;
-                break;
-
-            case asking_left:
-                theMap.put(compass.getLeftHeading(), extraInfo);
-                d.currentState = State.asking_right;
-                break;
-
-            case asking_right:
-                theMap.put(compass.getRightHeading(), extraInfo); 
-                // if (theMap.is_stuck()) {
-                //     logger.info("STUCK");
-                // }
-                try {
-                    theMap.choose();
-                    theMap.reset();
-                    logger.info("The best direction to travel in is {}", theMap.best_direction);
-                    d.currentState = State.exploring;
-
-                // in case we're stuck (all neighbours visited) then make a uturn
-                } catch (Exception e) {
-                    logger.info("STUCK");
-                    logger.info("battery is {}", current_budget);
-                    d.currentState = State.stopping;
-                }
-
-                break;
-
-            // after flight, change heading of compass and go to scanning
-            case exploring:
-                compass.heading = theMap.best_direction;
-                d.currentState = State.scanning;
-                break;
-
-            // after scanning go back to verification of neighbors if no creeks or sites
-            case scanning:
-                JSONArray creeks = parser.get_creeks(extraInfo);
-                JSONArray sites = parser.get_sites(extraInfo);
-                if (creeks.length() > 0) {
-                    logger.info("Found creek!");
-                    tracker.add_creek(creeks.getString(0), this.compass.getCoordinates());
-                } else if (sites.length() > 0) {
-                    logger.info("Found emergency site!");
-                    tracker.add_emergency_site(sites.getString(0), this.compass.getCoordinates());
-                }
-                d.currentState = State.asking_front;
-                break;
-
-        }
-     
-    }
+    
+   
 
     @Override
     public String deliverFinalReport() {
@@ -159,5 +91,9 @@ public class Explorer implements IExplorerRaid {
         // Other wise we cant use the tracker.find_closest_creek() method
         return "no creek found";
     }
-
 }
+
+    
+
+    
+
