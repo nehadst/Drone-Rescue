@@ -1,5 +1,18 @@
 @startuml Team102_UML
 
-A -> B : Test
+Runner - Explorer
+class Explorer implements IExplorerRaid
+Explorer --> MapMaker
+Explorer --> Echoer
+Explorer --> Drone
+Explorer --> Compass
+Explorer --> ScanParser
+Explorer --> Tracker
+Explorer --> PrimaryAlgorithm
+Explorer --> DefaultResultAcknowledger
+
+class PrimaryAlgorithm implements AlgorithmSelector
+class DefaultResultAcknowledger implements ResultAcknowledger
+
 
 @enduml
