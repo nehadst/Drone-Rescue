@@ -1,7 +1,57 @@
 @startuml Team102_UML
 
+class Runner {
+    +main()
+}
+
 Runner - Explorer
-class Explorer implements IExplorerRaid
+
+interface IExplorerRaid {
+    +initialize()
+    +takeDecision()
+    +acknowledgeResults()
+    +deliverFinalReport()
+}
+
+interface AlgorithmSelector {
+    +executeAlgorithm()
+}
+
+interface ResultAcknowledger {
+    +executeAcknowledgement()
+}
+
+class Explorer implements IExplorerRaid {
+    -logger
+    -initial_budget
+    -current_budget
+    -theMap
+    -echoer
+    - d
+    -compass
+    -parser
+    -tracker
+    -selectedAlgorithm
+    -resultAcknowledger
+    +initialize()
+    +takeDecision()
+    -setAlgorithm()
+    +acknowledgeResults()
+    -emergency_return()
+    +deliverFinalReport()
+
+}
+enum State {
+    +exploring
+    +scanning
+    +found_creek
+    +returning
+    +stopping
+    +asking_front
+    +asking_left
+    +asking_right
+    +turning
+}
 Explorer --> MapMaker
 Explorer --> Echoer
 Explorer --> Drone
