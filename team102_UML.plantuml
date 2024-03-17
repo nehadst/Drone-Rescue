@@ -1,0 +1,5 @@
+@startuml Team102_UML
+
+A -> B : Test
+
+@enduml
