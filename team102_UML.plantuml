@@ -61,8 +61,13 @@ Explorer --> Tracker
 Explorer --> PrimaryAlgorithm
 Explorer --> DefaultResultAcknowledger
 
-class PrimaryAlgorithm implements AlgorithmSelector
-class DefaultResultAcknowledger implements ResultAcknowledger
-
+class PrimaryAlgorithm implements AlgorithmSelector {
+    -logger
+    +executeAlgorithm()
+}
+class DefaultResultAcknowledger implements ResultAcknowledger {
+    -logger
+    +executeAcknowledgement()
+}
 
 @enduml
