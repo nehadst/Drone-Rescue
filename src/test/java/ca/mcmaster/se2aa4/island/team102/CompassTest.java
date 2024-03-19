@@ -3,9 +3,13 @@ package ca.mcmaster.se2aa4.island.team102;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+// use mvn test to test
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CompassTest {
@@ -29,5 +33,28 @@ public class CompassTest {
     public void shouldGetFront() {
         assertEquals(compass.getHeading(), Heading.E);
     }
+
+    @Test
+    public void peekFront() {
+        assertEquals(compass.peekCoordinates(Heading.E), new Location(1, 0));
+    }
+
+    @Test
+    public void peekRightTurn() {
+        assertEquals(compass.peekCoordinates(Heading.S), new Location(1, -1));
+    }
+
+    @Test
+    public void peekLeftTurn() {
+        assertEquals(compass.peekCoordinates(Heading.N), new Location(1, 1));
+    }
+
+    @Test
+    public void addVisited() {
+        compass.addVisitedLocation(new Location(0, 0));
+        assertEquals(compass.alreadyVisited(new Location(0, 0)), true);
+    }
+
+
 
 }

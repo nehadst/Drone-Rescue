@@ -45,7 +45,7 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
                     logger.info("The best direction to travel in is {}", theMap.best_direction);
                     return State.exploring;
 
-                // in case we're stuck (all neighbours visited) then make a uturn
+                // in case we're stuck (all neighbours visited) then return
                 } catch (Exception e) {
                     logger.info("STUCK");
                     logger.info("battery is {}", current_budget);
