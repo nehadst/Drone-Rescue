@@ -10,6 +10,10 @@ public class Drone {
     State currentState;
 
     public JSONObject turn(Heading face) {
+        // (Heading) -> JSONObject
+        // This method returns a JSONObject command to make the drone turn in the 
+        // direction of the given heading
+
         JSONObject decision = new JSONObject();
         JSONObject extra_parameters = new JSONObject();
         decision.put("action", "heading");
@@ -19,6 +23,8 @@ public class Drone {
     }
 
     public JSONObject fly() {
+        // () -> JSONObject
+        // This method returns the command to make the drone fly forward
         JSONObject decision = new JSONObject();
         decision.put("action", "fly");
         return decision;
