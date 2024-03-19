@@ -6,5 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TemplateTest {
-    
+    private Drone testDrone;
+
+    @BeforeAll
+    public void initDrone() {testDrone = new Drone();}
 }
