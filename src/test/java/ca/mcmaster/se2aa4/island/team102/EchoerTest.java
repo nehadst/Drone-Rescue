@@ -32,7 +32,7 @@ public class EchoerTest {
     }
 
     @Test
-    public void DecideEchoRight() {
+    public void DecideEchoSouth() {
         JSONObject decision = new JSONObject();
         JSONObject extra_parameters = new JSONObject();
         decision.put("action", "echo");
@@ -50,7 +50,7 @@ public class EchoerTest {
     }
 
     @Test
-    public void DecideEchoLeft() {
+    public void DecideEchoNorth() {
         JSONObject decision = new JSONObject();
         JSONObject extra_parameters = new JSONObject();
         decision.put("action", "echo");
@@ -58,6 +58,42 @@ public class EchoerTest {
         decision.put("parameters", extra_parameters);
         
         JSONObject testDecision = testEchoer.ask(Heading.N);
+
+        assertEquals(decision.get("action"), testDecision.get("action"));
+
+        JSONObject parameters = (JSONObject) decision.get("parameters");
+        JSONObject testParameters = (JSONObject) testDecision.get("parameters");
+
+        assertEquals(parameters.toString(), testParameters.toString());
+    }
+
+    @Test
+    public void DecideEchoEast() {
+        JSONObject decision = new JSONObject();
+        JSONObject extra_parameters = new JSONObject();
+        decision.put("action", "echo");
+        extra_parameters.put("direction", Heading.E);
+        decision.put("parameters", extra_parameters);
+        
+        JSONObject testDecision = testEchoer.ask(Heading.E);
+
+        assertEquals(decision.get("action"), testDecision.get("action"));
+
+        JSONObject parameters = (JSONObject) decision.get("parameters");
+        JSONObject testParameters = (JSONObject) testDecision.get("parameters");
+
+        assertEquals(parameters.toString(), testParameters.toString());
+    }
+
+    @Test
+    public void DecideEchoWest() {
+        JSONObject decision = new JSONObject();
+        JSONObject extra_parameters = new JSONObject();
+        decision.put("action", "echo");
+        extra_parameters.put("direction", Heading.W);
+        decision.put("parameters", extra_parameters);
+        
+        JSONObject testDecision = testEchoer.ask(Heading.W);
 
         assertEquals(decision.get("action"), testDecision.get("action"));
 

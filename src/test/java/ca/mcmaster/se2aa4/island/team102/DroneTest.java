@@ -15,7 +15,7 @@ public class DroneTest {
     public void initDrone() {testDrone = new Drone();}
 
     @Test
-    public void DecideTurnRight() {
+    public void DecideTurnSouth() {
         JSONObject decision = new JSONObject();
         JSONObject extra_parameters = new JSONObject();
         decision.put("action", "heading");
@@ -33,7 +33,7 @@ public class DroneTest {
     }
 
     @Test
-    public void DecideTurnLeft() {
+    public void DecideTurnNorth() {
         JSONObject decision = new JSONObject();
         JSONObject extra_parameters = new JSONObject();
         decision.put("action", "heading");
@@ -41,6 +41,42 @@ public class DroneTest {
         decision.put("parameters", extra_parameters);
         
         JSONObject testDecision = testDrone.turn(Heading.N);
+
+        assertEquals(decision.get("action"), testDecision.get("action"));
+
+        JSONObject parameters = (JSONObject) decision.get("parameters");
+        JSONObject testParameters = (JSONObject) testDecision.get("parameters");
+
+        assertEquals(parameters.toString(), testParameters.toString());
+    }
+
+    @Test
+    public void DecideTurnEast() {
+        JSONObject decision = new JSONObject();
+        JSONObject extra_parameters = new JSONObject();
+        decision.put("action", "heading");
+        extra_parameters.put("direction", Heading.E);
+        decision.put("parameters", extra_parameters);
+        
+        JSONObject testDecision = testDrone.turn(Heading.E);
+
+        assertEquals(decision.get("action"), testDecision.get("action"));
+
+        JSONObject parameters = (JSONObject) decision.get("parameters");
+        JSONObject testParameters = (JSONObject) testDecision.get("parameters");
+
+        assertEquals(parameters.toString(), testParameters.toString());
+    }
+
+    @Test
+    public void DecideTurnWest() {
+        JSONObject decision = new JSONObject();
+        JSONObject extra_parameters = new JSONObject();
+        decision.put("action", "heading");
+        extra_parameters.put("direction", Heading.W);
+        decision.put("parameters", extra_parameters);
+        
+        JSONObject testDecision = testDrone.turn(Heading.W);
 
         assertEquals(decision.get("action"), testDecision.get("action"));
 
