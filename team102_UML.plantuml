@@ -70,4 +70,20 @@ class DefaultResultAcknowledger implements ResultAcknowledger {
     +executeAcknowledgement()
 }
 
+enum Heading {
+    + N 
+    + S 
+    + E 
+    + W 
+}
+
+PrimaryAlgorithm --> Location
+
+class Location {
+    - x 
+    - y 
+}
+
+class ScanParsing
+
 @enduml
