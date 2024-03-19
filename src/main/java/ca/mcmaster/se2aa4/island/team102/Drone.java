@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 public class Drone {
 
-    
     Integer battery;
     State currentState;
 
