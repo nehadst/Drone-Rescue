@@ -89,9 +89,9 @@ public class Explorer implements IExplorerRaid {
     }
 
     public void acknowledgeResults(String s) {
-        d.currentState = resultAcknowledger.executeAcknowledgement(parser, compass, theMap, tracker, d, d.currentState, s);
         //(String) -> void
         //Acknowledges the results of the last action, updates the state, and logs any changes.
+        d.currentState = resultAcknowledger.executeAcknowledgement(parser, compass, theMap, tracker, d, d.currentState, s);
     }
 
     private void emergency_return(){
@@ -121,8 +121,3 @@ public class Explorer implements IExplorerRaid {
         return closest_creek;
     }
 }
-
-    
-
-    
-

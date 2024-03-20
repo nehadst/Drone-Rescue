@@ -15,7 +15,4 @@ public class Echoer {
             decision.put("parameters", extra_parameters);
             return decision;
         }
-
-
-
 }

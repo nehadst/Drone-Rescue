@@ -7,7 +7,7 @@ import java.util.List;
 public class Tracker {
 //Tracks identified features of interest, such as creeks and emergency sites, during exploration.    
 
-
+    // map ID to Location
     HashMap<String, Location> creeks = new HashMap<>();
     HashMap<String, Location> emergency_site = new HashMap<>();
 
