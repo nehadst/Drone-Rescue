@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 
 public class ScanParser implements ScanParsing {
+//Parses scanning results from JSON objects to extract specific information.    
     @Override
     public JSONArray get_biomes(JSONObject extraInfo) {
         JSONArray biomes = extraInfo.getJSONArray("biomes");
