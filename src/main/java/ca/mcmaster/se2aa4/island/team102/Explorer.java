@@ -19,7 +19,7 @@ public class Explorer implements IExplorerRaid {
     private Drone d = new Drone();
     private Compass compass;
     private Tracker tracker = new Tracker();
-    private ScanParsing parser;
+    private ScanParser parser;
     private AlgorithmSelector selectedAlgorithm;
     private ResultAcknowledger resultAcknowledger;
 
@@ -68,7 +68,7 @@ public class Explorer implements IExplorerRaid {
         }
     }
 
-    private ScanParsing setParser(Integer parserType) {
+    private ScanParser setParser(Integer parserType) {
         // (Integer) -> ScanParsing
         // Selects the type of parser to use from the ScanParsing interface
 
