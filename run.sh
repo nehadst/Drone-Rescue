@@ -1,1 +1,1 @@
-mvn clean package -q && mvn exec:java -q -Dexec.args="./maps/map03.json"
+mvn clean package -q && mvn exec:java -q -Dexec.args="./maps/map06.json"

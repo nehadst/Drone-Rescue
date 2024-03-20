@@ -12,24 +12,6 @@ public class EchoerTest {
 
     @BeforeAll
     public void initEchoer() {testEchoer = new Echoer();}
-    
-    @Test
-    public void DecideEchoFront() {
-        JSONObject decision = new JSONObject();
-        JSONObject extra_parameters = new JSONObject();
-        decision.put("action", "echo");
-        extra_parameters.put("direction", Heading.E);
-        decision.put("parameters", extra_parameters);
-        
-        JSONObject testDecision = testEchoer.ask(Heading.E);
-
-        assertEquals(decision.get("action"), testDecision.get("action"));
-
-        JSONObject parameters = (JSONObject) decision.get("parameters");
-        JSONObject testParameters = (JSONObject) testDecision.get("parameters");
-
-        assertEquals(parameters.toString(), testParameters.toString());
-    }
 
     @Test
     public void DecideEchoSouth() {

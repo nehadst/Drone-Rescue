@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team102;
 
+import java.util.Objects;
+
 public class Location {
     int x, y;
     public Location(int _x, int _y) {
@@ -29,10 +31,7 @@ public class Location {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + x + y;
-        return result;
+        return Objects.hash(x, y);
     }
 
 
