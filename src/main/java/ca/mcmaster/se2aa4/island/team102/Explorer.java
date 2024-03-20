@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 
 import eu.ace_design.island.bot.IExplorerRaid;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -20,8 +19,8 @@ public class Explorer implements IExplorerRaid {
     private Echoer echoer = new Echoer();
     private Drone d = new Drone();
     private Compass compass;
-    private ScanParser parser = new ScanParser();
     private Tracker tracker = new Tracker();
+    private ScanParsing parser;
     private AlgorithmSelector selectedAlgorithm;
     private DefaultResultAcknowledger resultAcknowledger;
 
@@ -47,6 +46,7 @@ public class Explorer implements IExplorerRaid {
         // Select algorithm for the drone to use (PrimaryAlgorithm by defualt)
         this.selectedAlgorithm = setAlgorithm(1);
         this.resultAcknowledger = new DefaultResultAcknowledger();
+        this.parser = new ScanParser();
     }
 
 
