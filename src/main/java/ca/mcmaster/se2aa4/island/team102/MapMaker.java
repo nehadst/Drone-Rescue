@@ -46,6 +46,8 @@ public class MapMaker {
     }
 
     public void choose() throws Exception {
+    //() -> void
+    //Chooses the next best direction based on map information. Throws Exception if stuck.    
         List<Heading> keys = new ArrayList<>(map.keySet());
 
         if (this.is_stuck()) {
@@ -72,10 +74,14 @@ public class MapMaker {
     }
 
     public void reset() {
+    //() -> void
+    //Resets the map.    
         map.clear();
     }
 
     public int size() {
+    //() -> int
+    //Returns the size of the map.    
         return map.size();
     }
 }
