@@ -5,20 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Tracker {
+//Tracks identified features of interest, such as creeks and emergency sites, during exploration.    
 
 
-    // map ID to Location
     HashMap<String, Location> creeks = new HashMap<>();
     HashMap<String, Location> emergency_site = new HashMap<>();
 
     public void add_creek(String ID, Location loc) {
+    //(String, Location) -> void
+    //Records a creek's ID and its location.    
         creeks.put(ID, loc);
     }
     public void add_emergency_site(String ID, Location loc) {
+    //(String, Location) -> void
+    //Records an emergency site's ID and its location.  
         emergency_site.put(ID, loc);
     }
 
     public String find_closest_creek() {
+    //() -> String
+    //Finds the closest creek to the emergency site.    
         List<String> ER_IDS = new ArrayList<>(emergency_site.keySet());
         List<String> CREEKS_ID = new ArrayList<>(creeks.keySet());
         // if no emergency sites found, return first creek in list
@@ -49,6 +55,8 @@ public class Tracker {
     }
 
     public double find_distance(Location A, Location B) {
+    //(Location, Location) -> double
+    //Finds the distance between two locations.    
         return Math.sqrt(((B.x - A.x) * (B.x - A.x)) + ((B.y - A.y) * (B.y - A.y)));
     }
 

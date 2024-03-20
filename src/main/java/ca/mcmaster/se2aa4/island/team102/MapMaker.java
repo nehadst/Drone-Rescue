@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 public class MapMaker {
+//This class is used for tracking and manipulating the map of the simulated environment.    
     int map_capacity = 3;
     LinkedHashMap<Heading, JSONObject> map = new LinkedHashMap<>(map_capacity);
     Heading best_direction;
@@ -13,15 +14,21 @@ public class MapMaker {
     Compass map_compass;
 
     public void put(Heading heading, JSONObject extraInfo) {
+    //(Heading, JSONObject) -> void
+    //Puts the heading and extraInfo into the map.    
         map.put(heading, extraInfo);
     }
 
     public MapMaker (Heading initial_heading, Compass compass) {
+    //(Heading, Compass) -> MapMaker
+    //Initializes a MapMaker with initial_heading and compass.    
         this.best_direction = initial_heading;
         this.map_compass = compass;
     }
 
     public boolean is_stuck() {
+    //() -> boolean
+    //Determines if the current state is stuck based on visited locations and map information.    
         List<Heading> keys = new ArrayList<>(map.keySet());
 
         for (Heading direction : keys) {
@@ -34,6 +41,8 @@ public class MapMaker {
     }
 
     public void choose() throws Exception {
+    //() -> void
+    //Chooses the next best direction based on map information. Throws Exception if stuck.    
         List<Heading> keys = new ArrayList<>(map.keySet());
 
         if (this.is_stuck()) {
@@ -58,10 +67,14 @@ public class MapMaker {
     }
 
     public void reset() {
+    //() -> void
+    //Resets the map.    
         map.clear();
     }
 
     public int size() {
+    //() -> int
+    //Returns the size of the map.    
         return map.size();
     }
 }
