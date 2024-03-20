@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 
 import eu.ace_design.island.bot.IExplorerRaid;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -20,10 +19,10 @@ public class Explorer implements IExplorerRaid {
     private Echoer echoer = new Echoer();
     private Drone d = new Drone();
     private Compass compass;
-    private ScanParser parser = new ScanParser();
     private Tracker tracker = new Tracker();
+    private ScanParsing parser;
     private AlgorithmSelector selectedAlgorithm;
-    private DefaultResultAcknowledger resultAcknowledger;
+    private ResultAcknowledger resultAcknowledger;
 
     @Override
     public void initialize(String s) {
@@ -44,11 +43,11 @@ public class Explorer implements IExplorerRaid {
         initial_budget = info.getInt("budget");
         current_budget = initial_budget;
 
-        // Select algorithm for the drone to use (PrimaryAlgorithm by defualt)
-        this.selectedAlgorithm = setAlgorithm(1);
-        this.resultAcknowledger = new DefaultResultAcknowledger();
+        // Select algorithm, acknowledger, and parser for the drone to use
+        this.selectedAlgorithm = setAlgorithm(0);
+        this.resultAcknowledger = setAcknowledger(0);
+        this.parser = setParser(0);
     }
-
 
     @Override
     public String takeDecision() {
@@ -71,12 +70,31 @@ public class Explorer implements IExplorerRaid {
         }
     }
 
+    private ScanParsing setParser(Integer parserType) {
+        // (Integer) -> ScanParsing
+        // Selects the type of parser to use from the ScanParsing interface
+
+        switch (parserType) {
+            default:
+                return new ScanParser();
+        }
+    }
+
+    private ResultAcknowledger setAcknowledger(Integer acknowledgeType) {
+        // (Integer) -> ResultAcknowledger
+        // Selects the type of acknowledger to use from the ResultAcknowledger interface
+
+        switch (acknowledgeType) {
+            default:
+                return new DefaultResultAcknowledger();
+        }
+    }
+
     public void acknowledgeResults(String s) {
         //(String) -> void
         //Acknowledges the results of the last action, updates the state, and logs any changes.
         d.currentState = resultAcknowledger.executeAcknowledgement(parser, compass, theMap, tracker, d, d.currentState, current_budget, s);
     }
-
 
     private void emergency_return(){
         //() -> void
@@ -86,8 +104,6 @@ public class Explorer implements IExplorerRaid {
             d.currentState = State.stopping;
         }
     }
-    
-   
 
     @Override
     public String deliverFinalReport() {
