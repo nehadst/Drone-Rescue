@@ -1,7 +1,7 @@
 package ca.mcmaster.se2aa4.island.team102;
 
 public class Location {
-    private int x, y;
+    public int x, y;
     public Location(int _x, int _y) {
         this.x = _x;
         this.y = _y;

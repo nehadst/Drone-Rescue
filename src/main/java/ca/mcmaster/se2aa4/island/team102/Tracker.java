@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Tracker {
 
-
     // map ID to Location
     HashMap<String, Location> creeks = new HashMap<>();
     HashMap<String, Location> emergency_site = new HashMap<>();

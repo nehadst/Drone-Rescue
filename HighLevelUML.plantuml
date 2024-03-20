@@ -1,0 +1,56 @@
+@startuml HighLevel_UML
+
+class Runner 
+
+Runner - Explorer
+
+interface IExplorerRaid
+
+interface AlgorithmSelector
+
+interface ResultAcknowledger
+
+class Explorer implements IExplorerRaid 
+
+enum State {
+    +exploring
+    +scanning
+    +found_creek
+    +returning
+    +stopping
+    +asking_front
+    +asking_left
+    +asking_right
+    +turning
+}
+
+Explorer --> MapMaker
+Explorer --> Echoer
+Explorer --> Drone
+Explorer --> Compass
+Explorer --> ScanParser
+Explorer --> Tracker
+Explorer --> AlgorithmSelector
+Explorer --> ResultAcknowledger
+
+class MapMaker 
+
+class Tracker
+
+class PrimaryAlgorithm implements AlgorithmSelector
+class DefaultResultAcknowledger implements ResultAcknowledger
+
+enum Heading {
+    + N 
+    + S 
+    + E 
+    + W 
+}
+
+PrimaryAlgorithm --> Location
+
+class Location 
+
+class ScanParsing
+
+@enduml
