@@ -44,11 +44,10 @@ public class Explorer implements IExplorerRaid {
         current_budget = initial_budget;
 
         // Select algorithm for the drone to use (PrimaryAlgorithm by defualt)
-        this.selectedAlgorithm = setAlgorithm(1);
+        this.selectedAlgorithm = setAlgorithm(0);
         this.resultAcknowledger = new DefaultResultAcknowledger();
-        this.parser = new ScanParser();
+        this.parser = setParser(0);
     }
-
 
     @Override
     public String takeDecision() {
@@ -71,12 +70,21 @@ public class Explorer implements IExplorerRaid {
         }
     }
 
+    private ScanParsing setParser(Integer parserType) {
+        // (Integer) -> ScanParsing
+        // Selects the type of parser to use from the ScanParsing interface
+
+        switch (parserType) {
+            default:
+                return new ScanParser();
+        }
+    }
+
     public void acknowledgeResults(String s) {
         //(String) -> void
         //Acknowledges the results of the last action, updates the state, and logs any changes.
         d.currentState = resultAcknowledger.executeAcknowledgement(parser, compass, theMap, tracker, d, d.currentState, current_budget, s);
     }
-
 
     private void emergency_return(){
         //() -> void
