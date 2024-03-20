@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
+//This class represents a compass for navigation purposes, keeping track of the drone's current heading,
+// visited locations, and methods to determine new headings based on best direction.
+
 public class Compass {
 
     private Location loc = new Location(0, 0);
