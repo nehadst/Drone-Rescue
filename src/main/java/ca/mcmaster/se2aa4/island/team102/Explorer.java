@@ -14,7 +14,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private int initial_budget;
-    private int current_budget;
     private MapMaker theMap;
     private Echoer echoer = new Echoer();
     private Drone d = new Drone();
@@ -41,7 +40,6 @@ public class Explorer implements IExplorerRaid {
         logger.info("Battery level is {}", d.battery);
         logger.info("The drone is currently in state {}", d.currentState);
         initial_budget = info.getInt("budget");
-        current_budget = initial_budget;
 
         // Select algorithm, acknowledger, and parser for the drone to use
         this.selectedAlgorithm = setAlgorithm(0);
@@ -91,15 +89,16 @@ public class Explorer implements IExplorerRaid {
     }
 
     public void acknowledgeResults(String s) {
+        d.currentState = resultAcknowledger.executeAcknowledgement(parser, compass, theMap, tracker, d, d.currentState, s);
         //(String) -> void
         //Acknowledges the results of the last action, updates the state, and logs any changes.
-        d.currentState = resultAcknowledger.executeAcknowledgement(parser, compass, theMap, tracker, d, d.currentState, current_budget, s);
     }
 
     private void emergency_return(){
-        //() -> void
+
+         //() -> void
          // If in any emergency state such as low battery, return immediately to the starting point.
-        if (current_budget <= initial_budget / 2) {
+        if (d.battery <= initial_budget / 2) {
             logger.info("The drone is returning to the starting point due to low battery");
             d.currentState = State.stopping;
         }
@@ -117,9 +116,9 @@ public class Explorer implements IExplorerRaid {
         // }
         logger.info("Contents of creek_map {}", tracker.creeks);
         logger.info("Contents of emergency site map {}", tracker.emergency_site);
-        // TODO: Work on the algo more to ensure emergency site is found
-        // Other wise we cant use the tracker.find_closest_creek() method
-        return "no creek found";
+        String closest_creek = tracker.find_closest_creek();
+        logger.info("Closest creek is {}", closest_creek);
+        return closest_creek;
     }
 }
 

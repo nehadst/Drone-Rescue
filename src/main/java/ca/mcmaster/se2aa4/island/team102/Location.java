@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team102;
 
+import java.util.Objects;
+
 public class Location {
     //This class is used for tracking and manipulating positions within the simulated environment.
     int x, y;
@@ -39,11 +41,9 @@ public class Location {
     @Override
     public int hashCode() {
     //() -> int
-    //Generates a hash code for the current location.    
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + x + y;
-        return result;
+    //Generates a hash code for the current location.  
+
+        return Objects.hash(x, y);
     }
 
 

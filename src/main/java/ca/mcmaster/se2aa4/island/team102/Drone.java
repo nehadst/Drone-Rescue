@@ -4,8 +4,9 @@ package ca.mcmaster.se2aa4.island.team102;
 import org.json.JSONObject;
 
 public class Drone {
+
 //This class represents a drone that can perform various actions such as turn, fly, stop, and scan.
-    
+
     Integer battery;
     State currentState;
 

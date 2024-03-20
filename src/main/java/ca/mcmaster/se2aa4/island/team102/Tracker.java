@@ -26,9 +26,18 @@ public class Tracker {
     //() -> String
     //Finds the closest creek to the emergency site.    
         List<String> ER_IDS = new ArrayList<>(emergency_site.keySet());
+        List<String> CREEKS_ID = new ArrayList<>(creeks.keySet());
+        // if no emergency sites found, return first creek in list
+        if (ER_IDS.isEmpty()) {
+            if (!CREEKS_ID.isEmpty()) {
+                return CREEKS_ID.get(0);
+            }
+            else {
+                return "no creek found";
+            }
+        }
         String ER_ID = ER_IDS.get(0);
         Location ER_Loc = emergency_site.get(ER_ID);
-        List<String> CREEKS_ID = new ArrayList<>(creeks.keySet());
         String closest_creek = "";
         double distance = Double.POSITIVE_INFINITY;
 

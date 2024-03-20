@@ -13,13 +13,13 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
     private static final Logger logger = LogManager.getLogger(DefaultResultAcknowledger.class);
     // Acknowledges the result of the drone's action and updates the state of the drone accordingly.
     @Override
-    public State executeAcknowledgement(ScanParsing parser, Compass compass, MapMaker theMap, Tracker tracker, Drone d, State currentState, int current_budget, String s) {
+    public State executeAcknowledgement(ScanParser parser, Compass compass, MapMaker theMap, Tracker tracker, Drone d, State currentState, String s) {
         //(ScanParser, Compass, MapMaker, Tracker, Drone, State, int, String) -> State
         //Processes the JSON response from the drone actions, updates the system state, and logs the results. Adjusts the drone's current state based on the response.
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
         Integer cost = response.getInt("cost");
-        current_budget -= cost;
+        d.battery -= cost;
         logger.info("The cost of the action was {}", cost);
         String status = response.getString("status");
         logger.info("The status of the drone is {}", status);
@@ -39,19 +39,16 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
 
             case asking_right:
                 theMap.put(compass.getRightHeading(), extraInfo); 
-                // if (theMap.is_stuck()) {
-                //     logger.info("STUCK");
-                // }
                 try {
                     theMap.choose();
                     theMap.reset();
                     logger.info("The best direction to travel in is {}", theMap.best_direction);
                     return State.exploring;
 
-                // in case we're stuck (all neighbours visited) then make a uturn
+                // in case we're stuck (all neighbours visited) then return
                 } catch (Exception e) {
                     logger.info("STUCK");
-                    logger.info("battery is {}", current_budget);
+                    logger.info("battery is {}", d.battery);
                     return State.stopping;
                 }
 
