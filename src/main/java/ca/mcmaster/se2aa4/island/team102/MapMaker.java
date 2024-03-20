@@ -29,7 +29,6 @@ public class MapMaker {
         List<Heading> keys = new ArrayList<>(map.keySet());
 
         for (Heading direction : keys) {
-            JSONObject extraInfo = map.get(direction);
             if (!this.map_compass.alreadyVisited(this.map_compass.peekCoordinates(direction))) {
                 return false;
             }            

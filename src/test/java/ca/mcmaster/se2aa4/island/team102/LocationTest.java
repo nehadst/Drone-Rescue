@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.island.team102;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LocationTest {
     private Location testLocation;
 
-    @BeforeAll
+    @BeforeEach
     public void initLocation() {testLocation = new Location(0, 0);}
 
     @Test
