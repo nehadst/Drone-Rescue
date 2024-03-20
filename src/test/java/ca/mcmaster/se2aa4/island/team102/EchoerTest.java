@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.island.team102;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 public class EchoerTest {
     private Echoer testEchoer;
 
-    @BeforeAll
+    @BeforeEach
     public void initEchoer() {testEchoer = new Echoer();}
 
     @Test
