@@ -4,7 +4,7 @@ package ca.mcmaster.se2aa4.island.team102;
 import org.json.JSONObject;
 
 public class Drone {
-
+//This class represents a drone that can perform various actions such as turn, fly, stop, and scan.
     
     Integer battery;
     State currentState;
@@ -32,12 +32,16 @@ public class Drone {
 
 
     public JSONObject stop() {
+    //() -> JSONObject
+    //This method returns the command to make the drone stop.    
         JSONObject decision = new JSONObject();
         decision.put("action", "stop");
         return decision;
     }
 
     public JSONObject scan() {
+    //() -> JSONObject
+    //This method returns the command to make the drone scan.    
         JSONObject decision = new JSONObject();
         decision.put("action", "scan");
         return decision;

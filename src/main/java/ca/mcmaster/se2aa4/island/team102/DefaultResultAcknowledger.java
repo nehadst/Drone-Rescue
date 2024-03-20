@@ -9,10 +9,13 @@ import org.json.JSONArray;
 
 
 public class DefaultResultAcknowledger implements ResultAcknowledger {
+//This class is responsible for acknowledging the result of the drone's action and updating the state of the drone accordingly.
     private static final Logger logger = LogManager.getLogger(DefaultResultAcknowledger.class);
-    
+    // Acknowledges the result of the drone's action and updates the state of the drone accordingly.
     @Override
     public State executeAcknowledgement(ScanParser parser, Compass compass, MapMaker theMap, Tracker tracker, Drone d, State currentState, int current_budget, String s) {
+        //(ScanParser, Compass, MapMaker, Tracker, Drone, State, int, String) -> State
+        //Processes the JSON response from the drone actions, updates the system state, and logs the results. Adjusts the drone's current state based on the response.
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Response received:\n"+response.toString(2));
         Integer cost = response.getInt("cost");
