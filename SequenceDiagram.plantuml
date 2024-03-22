@@ -1,0 +1,10 @@
+@startuml Sequence_Diagram
+
+participant Runner
+participant Explorer
+participant "PrimaryAlgorithm\nAlgorithmSelector" as PrimaryAlgorithm
+participant "DefaultResultAcknowledger\nResultAcknowledger" as DefaultResultAcknowledger
+
+
+Runner -> Explorer : run()
+activate Explorer
