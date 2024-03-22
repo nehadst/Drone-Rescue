@@ -16,13 +16,13 @@ public class Compass {
     private Map<List<Heading>, Location> update_coordinates = new HashMap<>();
     public Heading heading;
     private Set<Location> visited = new HashSet<>();
-    private EnumMap<Heading, Heading> convert_to_right = new EnumMap<>(Map.of(
+    private Map<Heading, Heading> convert_to_right = new EnumMap<>(Map.of(
         Heading.N, Heading.E,
         Heading.E, Heading.S,
         Heading.S, Heading.W,
         Heading.W, Heading.N
     ));
-    private EnumMap<Heading, Heading> convert_to_left = new EnumMap<>(Map.of(
+    private Map<Heading, Heading> convert_to_left = new EnumMap<>(Map.of(
         Heading.N, Heading.W,
         Heading.W, Heading.S,
         Heading.S, Heading.E,
@@ -59,23 +59,23 @@ public class Compass {
     Heading getRightHeading() { return convert_to_right.get(this.heading); }
      // () -> Heading
     // Calculates and returns the right heading relative to the current heading.
-    Location newCoordinates(Heading best_direction) { return this.update_coordinates.get(Arrays.asList(this.heading, best_direction)); }
+    Location newCoordinates(Heading bestDirection) { return this.update_coordinates.get(Arrays.asList(this.heading, bestDirection)); }
     // (Heading) -> Location
     // Returns new coordinates based on the best direction given as a parameter.
 
 
-    public void updateCoordinates(Heading best_direction) {
+    public void updateCoordinates(Heading bestDirection) {
     // (Heading) -> void
     // Updates the current location coordinates based on the best direction provided.
-        Location change_in_loc = newCoordinates(best_direction);
-        loc.update(change_in_loc);
+        Location changeInLoc = newCoordinates(bestDirection);
+        loc.update(changeInLoc);
     }
 
-    public Location peekCoordinates(Heading best_direction) {
+    public Location peekCoordinates(Heading bestDirection) {
     // (Heading) -> Location
     // Calculates and returns potential new coordinates without updating current location, based on the best direction.    
-        Location change_in_loc = newCoordinates(best_direction);
-        return loc.calculate(change_in_loc);
+        Location changeInLoc = newCoordinates(bestDirection);
+        return loc.calculate(changeInLoc);
     }
 
     public void addVisitedLocation(Location loc) {
@@ -89,10 +89,10 @@ public class Compass {
     // Returns a copy of the current location to prevent modification through external references.
         return new Location(this.loc.x, this.loc.y);
     }
-    public boolean alreadyVisited(Location new_location) {
+    public boolean alreadyVisited(Location newLocation) {
     // (Location) -> boolean
     // Checks if a given location has already been visited.    
-        return this.visited.contains(new_location);
+        return this.visited.contains(newLocation);
     }
 
 }

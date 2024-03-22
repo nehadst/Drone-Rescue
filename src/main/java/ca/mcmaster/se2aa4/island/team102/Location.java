@@ -6,37 +6,36 @@ public class Location {
     //This class is used for tracking and manipulating positions within the simulated environment.
     public int x, y;
   
-    public Location(int _x, int _y) {
+    public Location(int xVal, int yVal) {
     //(int, int) -> Location
     //Initializes a location with specific x and y coordinates.    
-        this.x = _x;
-        this.y = _y;
+        this.x = xVal;
+        this.y = yVal;
     }
 
-    public void update(Location change_in_loc) {
+    public void update(Location changeInLoc) {
     //(Location) -> void
-    //Updates the location by adding the change_in_loc to the current location.    
-        this.x += change_in_loc.x;
-        this.y += change_in_loc.y;
+    //Updates the location by adding the changeInLoc to the current location.    
+        this.x += changeInLoc.x;
+        this.y += changeInLoc.y;
     }
 
-    public Location calculate(Location change_in_loc) {
+    public Location calculate(Location changeInLoc) {
     //(Location) -> Location
-    //Calculates the new location by adding the change_in_loc to the current location and returns the new location.    
-        return new Location(this.x + change_in_loc.x, this.y + change_in_loc.y);
+    //Calculates the new location by adding the changeInLoc to the current location and returns the new location.    
+        return new Location(this.x + changeInLoc.x, this.y + changeInLoc.y);
     }
 
     @Override
     public boolean equals(Object o) {
     //(Object) -> boolean
     //Checks if the current location is equal to another location.    
-        if (this == o) return true;
-        if (!(o instanceof Location)) return false;
+        if (this == o) { return true; }
+        if (!(o instanceof Location)) { return false; }
 
         Location loc = (Location) o;
 
-        if (x != loc.x) return false;
-        return y == loc.y;
+        return (x == loc.x) && (y == loc.y);
     }
 
     @Override

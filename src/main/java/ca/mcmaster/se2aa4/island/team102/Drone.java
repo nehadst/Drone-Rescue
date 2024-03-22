@@ -16,10 +16,10 @@ public class Drone {
         // direction of the given heading
 
         JSONObject decision = new JSONObject();
-        JSONObject extra_parameters = new JSONObject();
+        JSONObject extraParameters = new JSONObject();
         decision.put("action", "heading");
-        extra_parameters.put("direction", face.name());
-        decision.put("parameters", extra_parameters);
+        extraParameters.put("direction", face.name());
+        decision.put("parameters", extraParameters);
         return decision;
     }
 
