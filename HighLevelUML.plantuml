@@ -24,16 +24,16 @@ Compass ..> Heading
 
 Drone ..> State
 
-Explorer --> "1" Echoer
-Explorer --> "1" Drone
-Explorer --> Compass
+Explorer --o  Echoer
+Explorer --o "1" Drone
+Explorer --o Compass
 Explorer ..> ScanParsing
-Explorer --> "1" Tracker
+Explorer --o Tracker
 Explorer ..> AlgorithmSelector
 Explorer ..> ResultAcknowledger
 
 MapMaker --> Compass
-MapMaker *-- Explorer
+MapMaker o-- Explorer
 MapMaker ..> Heading
 
 PrimaryAlgorithm --> Location
