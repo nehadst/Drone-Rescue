@@ -8,3 +8,14 @@ participant "DefaultResultAcknowledger\nResultAcknowledger" as DefaultResultAckn
 
 Runner -> Explorer : run()
 activate Explorer
+
+
+Explorer -> Explorer : initialize()
+Explorer -> Explorer : setAlgorithm(algorithmType)
+Explorer -> Explorer : setAcknowledger(acknowledgeType)
+Explorer -> Explorer : setParser(parserType)
+Explorer -> PrimaryAlgorithm : executeAlgorithm(d, compass, theMap, echoer)
+activate PrimaryAlgorithm
+PrimaryAlgorithm --> Explorer : decision
+deactivate PrimaryAlgorithm
+
