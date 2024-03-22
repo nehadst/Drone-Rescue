@@ -16,15 +16,17 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
     public State executeAcknowledgement(ScanParsing parser, Compass compass, MapMaker theMap, Tracker tracker, Drone d, State currentState, String s) {
         //(ScanParser, Compass, MapMaker, Tracker, Drone, State, int, String) -> State
         //Processes the JSON response from the drone actions, updates the system state, and logs the results. Adjusts the drone's current state based on the response.
-        JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Response received:\n"+response.toString(2));
+        JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));        
         Integer cost = response.getInt("cost");
         d.battery -= cost;
-        logger.info("The cost of the action was {}", cost);
         String status = response.getString("status");
-        logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
-        logger.info("Additional information received: {}", extraInfo);
+        if (logger.isInfoEnabled()) {
+            logger.info("** Response received:\n"+response.toString(2));
+            logger.info("The cost of the action was {}", cost);
+            logger.info("The status of the drone is {}", status);
+            logger.info("Additional information received: {}", extraInfo);
+        }
 
         
         switch (currentState) {
@@ -42,13 +44,17 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
                 try {
                     theMap.choose();
                     theMap.reset();
-                    logger.info("The best direction to travel in is {}", theMap.best_direction);
+                    if (logger.isInfoEnabled()) {
+                        logger.info("The best direction to travel in is {}", theMap.best_direction);
+                    }
                     return State.exploring;
 
                 // in case we're stuck (all neighbours visited) then return
                 } catch (Exception e) {
-                    logger.info("STUCK");
-                    logger.info("battery is {}", d.battery);
+                    if (logger.isInfoEnabled()) {
+                        logger.info("STUCK");
+                        logger.info("battery is {}", d.battery);
+                    }
                     return State.stopping;
                 }
 
@@ -63,10 +69,14 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
                 JSONArray creeks = parser.get_creeks(extraInfo);
                 JSONArray sites = parser.get_sites(extraInfo);
                 if (creeks.length() > 0) {
-                    logger.info("Found creek!");
+                    if (logger.isInfoEnabled()) {
+                        logger.info("Found creek!");
+                    }
                     tracker.add_creek(creeks.getString(0), compass.getCoordinates());
                 } else if (sites.length() > 0) {
-                    logger.info("Found emergency site!");
+                    if (logger.isInfoEnabled()) {
+                        logger.info("Found emergency site!");
+                    }
                     tracker.add_emergency_site(sites.getString(0), compass.getCoordinates());
                 }
                 return State.asking_front;

@@ -28,23 +28,25 @@ public class Explorer implements IExplorerRaid {
     //(String) -> void
     //Initializes the exploration command center with the given JSON string. 
     //The string contains information about the initial state of the drone and the budget for the exploration mission.    
-        logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Initialization info:\n {}",info.toString(2));
-        Heading initial_heading = Heading.valueOf(info.getString("heading"));
-        compass = new Compass(initial_heading);
-        theMap = new MapMaker(initial_heading, compass);
+        Heading initialHeading = Heading.valueOf(info.getString("heading"));
+        compass = new Compass(initialHeading);
+        theMap = new MapMaker(initialHeading, compass);
         d.battery = info.getInt("budget");
         d.currentState = State.asking_front;
-        logger.info("The drone is currently facing {}", initial_heading.name());
-        logger.info("Battery level is {}", d.battery);
-        logger.info("The drone is currently in state {}", d.currentState);
         initial_budget = info.getInt("budget");
-
         // Select algorithm, acknowledger, and parser for the drone to use
         this.selectedAlgorithm = setAlgorithm(0);
         this.resultAcknowledger = setAcknowledger(0);
         this.parser = setParser(0);
+
+        if (logger.isInfoEnabled()) {
+            logger.info("** Initializing the Exploration Command Center");
+            logger.info("** Initialization info:\n {}",info.toString(2));
+            logger.info("The drone is currently facing {}", initialHeading.name());
+            logger.info("Battery level is {}", d.battery);
+            logger.info("The drone is currently in state {}", d.currentState);
+        }
     }
 
     @Override
@@ -52,9 +54,11 @@ public class Explorer implements IExplorerRaid {
     //() -> String
     //Determines the next action for the drone to take based on the current state and returns it to a JSON string.    
         JSONObject decision;
-        emergency_return();
+        emergencyReturn();
         decision = selectedAlgorithm.executeAlgorithm(d, compass, theMap, echoer);
-        logger.info("** Decision: {}",decision.toString());
+        if (logger.isInfoEnabled()) {
+            logger.info("** Decision: {}",decision.toString());
+        }
         return decision.toString();
     }
 
@@ -94,12 +98,14 @@ public class Explorer implements IExplorerRaid {
         d.currentState = resultAcknowledger.executeAcknowledgement(parser, compass, theMap, tracker, d, d.currentState, s);
     }
 
-    private void emergency_return(){
+    private void emergencyReturn(){
 
          //() -> void
          // If in any emergency state such as low battery, return immediately to the starting point.
         if (d.battery <= initial_budget / 2) {
-            logger.info("The drone is returning to the starting point due to low battery");
+            if (logger.isInfoEnabled()) {
+                logger.info("The drone is returning to the starting point due to low battery");
+            }
             d.currentState = State.stopping;
         }
     }
@@ -108,16 +114,12 @@ public class Explorer implements IExplorerRaid {
     public String deliverFinalReport() {
         //() -> String
         //Compiles and delivers the final report at the end of the exploration, providing details of discoveries.
-        // for debugging purposes only
-        // try {
-        //     Thread.sleep(3000000);
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
-        logger.info("Contents of creek_map {}", tracker.creeks);
-        logger.info("Contents of emergency site map {}", tracker.emergency_site);
-        String closest_creek = tracker.find_closest_creek();
-        logger.info("Closest creek is {}", closest_creek);
-        return closest_creek;
+        String closestCreek = tracker.find_closest_creek();
+        if (logger.isInfoEnabled()) {
+            logger.info("Contents of creek_map {}", tracker.creeks);
+            logger.info("Contents of emergency site map {}", tracker.emergency_site);
+            logger.info("Closest creek is {}", closestCreek);
+        }
+        return closestCreek;
     }
 }

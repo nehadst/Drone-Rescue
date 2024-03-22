@@ -2,13 +2,14 @@ package ca.mcmaster.se2aa4.island.team102;
 import java.util.Objects;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import org.json.JSONObject;
 
 public class MapMaker {
 //This class is used for tracking and manipulating the map of the simulated environment.    
     int map_capacity = 3;
-    LinkedHashMap<Heading, JSONObject> map = new LinkedHashMap<>(map_capacity);
+    Map<Heading, JSONObject> map = new LinkedHashMap<>(map_capacity);
     Heading best_direction;
     String looking_for = "GROUND";
     Compass map_compass;
