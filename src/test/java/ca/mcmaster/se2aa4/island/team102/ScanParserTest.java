@@ -26,17 +26,17 @@ public class ScanParserTest {
 
     @Test
     public void shouldGetBiomes() {
-        assertEquals(testParser.get_biomes(testJSONExtras).toString(), new JSONArray(List.of("GLACIER", "ALPINE")).toString());
+        assertEquals(testParser.getBiomes(testJSONExtras).toString(), new JSONArray(List.of("GLACIER", "ALPINE")).toString());
     }
 
     @Test
     public void shouldGetCreeks() {
-        assertEquals(testParser.get_creeks(testJSONExtras).toString(), new JSONArray(List.of("creekid")).toString());
+        assertEquals(testParser.getCreeks(testJSONExtras).toString(), new JSONArray(List.of("creekid")).toString());
     }
 
     @Test
     public void shouldGetSites() {
-        assertEquals(testParser.get_sites(testJSONExtras).toString(), new JSONArray(List.of("ERid")).toString());
+        assertEquals(testParser.getSites(testJSONExtras).toString(), new JSONArray(List.of("ERid")).toString());
     }
 
 

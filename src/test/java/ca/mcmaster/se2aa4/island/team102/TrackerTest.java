@@ -13,36 +13,36 @@ public class TrackerTest {
 
     @Test
     public void shouldAddCreek() {
-        testTracker.add_creek("testID", new Location(0, 0));
+        testTracker.addCreek("testID", new Location(0, 0));
         assertEquals(testTracker.creeks.size(), 1);
     }
 
     @Test
     public void shouldAddERSite() {
-        testTracker.add_emergency_site("testID", new Location(0, 0));
+        testTracker.addEmergencySite("testID", new Location(0, 0));
         assertEquals(testTracker.emergency_site.size(), 1);
     }
 
     @Test
     public void nothingFound() {
-        assertEquals(testTracker.find_closest_creek(), "no creek found");
+        assertEquals(testTracker.findClosestCreek(), "no creek found");
     }
 
     @Test
     public void chooseCreekNoER() {
-        testTracker.add_creek("testID", new Location(0, 0));
-        assertEquals(testTracker.find_closest_creek(), "testID");
+        testTracker.addCreek("testID", new Location(0, 0));
+        assertEquals(testTracker.findClosestCreek(), "testID");
     }
 
     @Test
     public void chooseClosestCreektoER() {
-        testTracker.add_emergency_site("testERID", new Location(0, 0));
-        testTracker.add_creek("testCREEKID2", new Location(2, 2));
-        testTracker.add_creek("testCREEKID3", new Location(3, 3));
-        testTracker.add_creek("testCREEKID1", new Location(1, 1));
+        testTracker.addEmergencySite("testERID", new Location(0, 0));
+        testTracker.addCreek("testCREEKID2", new Location(2, 2));
+        testTracker.addCreek("testCREEKID3", new Location(3, 3));
+        testTracker.addCreek("testCREEKID1", new Location(1, 1));
 
         // testCREEKID1 (1, 1) should be closest to testERID (0, 0)
-        assertEquals(testTracker.find_closest_creek(), "testCREEKID1");
+        assertEquals(testTracker.findClosestCreek(), "testCREEKID1");
 
     }
 
@@ -51,6 +51,6 @@ public class TrackerTest {
         // dist between (0, 0) and (3, 4) should be 5
         Location A = new Location(0, 0);
         Location B = new Location (3, 4);
-        assertEquals(testTracker.find_distance(A, B), 5);
+        assertEquals(testTracker.findDistance(A, B), 5);
     }
 }

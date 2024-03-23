@@ -33,7 +33,7 @@ public class MapMakerTest {
         testMap.put(Heading.E, new JSONObject().put("testkey", "testvalue"));
         testMap.put(Heading.S, new JSONObject().put("testkey", "testvalue"));
 
-        assertTrue(testMap.is_stuck());
+        assertTrue(testMap.isStuck());
     }
 
     @Test

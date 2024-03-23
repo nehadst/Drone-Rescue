@@ -114,7 +114,7 @@ public class Explorer implements IExplorerRaid {
     public String deliverFinalReport() {
         //() -> String
         //Compiles and delivers the final report at the end of the exploration, providing details of discoveries.
-        String closestCreek = tracker.find_closest_creek();
+        String closestCreek = tracker.findClosestCreek();
         if (logger.isInfoEnabled()) {
             logger.info("Contents of creek_map {}", tracker.creeks);
             logger.info("Contents of emergency site map {}", tracker.emergency_site);

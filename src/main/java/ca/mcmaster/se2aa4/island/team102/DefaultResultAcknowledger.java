@@ -66,18 +66,18 @@ public class DefaultResultAcknowledger implements ResultAcknowledger {
 
             // after scanning go back to verification of neighbors if no creeks or sites
             case scanning:
-                JSONArray creeks = parser.get_creeks(extraInfo);
-                JSONArray sites = parser.get_sites(extraInfo);
+                JSONArray creeks = parser.getCreeks(extraInfo);
+                JSONArray sites = parser.getSites(extraInfo);
                 if (creeks.length() > 0) {
                     if (logger.isInfoEnabled()) {
                         logger.info("Found creek!");
                     }
-                    tracker.add_creek(creeks.getString(0), compass.getCoordinates());
+                    tracker.addCreek(creeks.getString(0), compass.getCoordinates());
                 } else if (sites.length() > 0) {
                     if (logger.isInfoEnabled()) {
                         logger.info("Found emergency site!");
                     }
-                    tracker.add_emergency_site(sites.getString(0), compass.getCoordinates());
+                    tracker.addEmergencySite(sites.getString(0), compass.getCoordinates());
                 }
                 return State.asking_front;
             default:

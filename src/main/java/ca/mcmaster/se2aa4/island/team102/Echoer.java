@@ -9,10 +9,10 @@ public class Echoer {
         //Creates a command for an echo request in the specified direction to check for land.
         //Echo is useful in the cases to check terrain to see where we're at.    
             JSONObject decision = new JSONObject();
-            JSONObject extra_parameters = new JSONObject();
+            JSONObject extraParameters = new JSONObject();
             decision.put("action", "echo");
-            extra_parameters.put("direction", face.name());
-            decision.put("parameters", extra_parameters);
+            extraParameters.put("direction", face.name());
+            decision.put("parameters", extraParameters);
             return decision;
         }
 }
