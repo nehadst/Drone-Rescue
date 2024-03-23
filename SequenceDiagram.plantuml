@@ -1,4 +1,4 @@
-@startuml
+@startuml Sequence_Diagram
 
 participant Runner
 participant Explorer
@@ -48,6 +48,9 @@ deactivate Tracker
 Configurator -> Explorer : closest_creek
 deactivate Configurator
 
+Explorer -> Runner : closest_creek
+deactivate Explorer
+deactivate Runner
 
 
 
