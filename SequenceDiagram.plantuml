@@ -1,0 +1,57 @@
+@startuml Sequence_Diagram
+
+participant Runner
+participant Explorer
+participant Configurator
+participant PrimaryAlgorithm
+participant DefaultResultAcknowledger
+participant Tracker
+
+Runner -> Explorer : run()
+activate Runner
+activate Explorer
+
+Explorer -> Configurator : initialize()
+activate Configurator
+Configurator -> Configurator : setAlgorithm(algorithmType)
+Configurator -> Configurator : setAcknowledger(acknowledgeType)
+Configurator -> Configurator : setParser(parserType)
+Configurator --> Explorer : configuration complete
+deactivate Configurator
+
+Explorer -> Configurator : takeDecision()
+activate Configurator
+Configurator -> PrimaryAlgorithm : executeAlgorithm(d, compass, theMap, echoer)
+activate PrimaryAlgorithm
+PrimaryAlgorithm -> Configurator : decision
+deactivate PrimaryAlgorithm
+Configurator -> Explorer : decision
+deactivate Configurator
+Explorer -> Runner : decision()
+
+Explorer -> Configurator : acknowledgeResults()
+activate Configurator
+Configurator -> DefaultResultAcknowledger : executeAcknowledgement(parser, compass, theMap, tracker, drone, state, s)
+activate DefaultResultAcknowledger
+DefaultResultAcknowledger -> Configurator : next_state
+deactivate DefaultResultAcknowledger
+Configurator -> Explorer : next_state
+deactivate Configurator
+
+
+Explorer -> Configurator : deliverFinalReport
+activate Configurator
+Configurator -> Tracker : find_closest_creek()
+activate Tracker
+Tracker -> Configurator : closest_creek
+deactivate Tracker
+Configurator -> Explorer : closest_creek
+deactivate Configurator
+
+Explorer -> Runner : closest_creek
+deactivate Explorer
+deactivate Runner
+
+
+
+@enduml
