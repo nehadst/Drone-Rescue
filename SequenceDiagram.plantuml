@@ -1,4 +1,4 @@
-@startuml Sequence_Diagram
+@startuml
 
 participant Runner
 participant Explorer
@@ -8,6 +8,7 @@ participant "DefaultResultAcknowledger\nResultAcknowledger" as DefaultResultAckn
 participant Tracker
 
 Runner -> Explorer : run()
+activate Runner
 activate Explorer
 
 Explorer -> Configurator : initialize()
@@ -26,18 +27,28 @@ PrimaryAlgorithm -> Configurator : decision
 deactivate PrimaryAlgorithm
 Configurator -> Explorer : decision
 deactivate Configurator
+Explorer -> Runner : decision()
 
-Explorer -> DefaultResultAcknowledger : executeAcknowledgement(parser, compass, theMap, tracker, drone, state, s)
+Explorer -> Configurator : acknowledgeResults()
+activate Configurator
+Configurator -> DefaultResultAcknowledger : executeAcknowledgement(parser, compass, theMap, tracker, drone, state, s)
 activate DefaultResultAcknowledger
-DefaultResultAcknowledger -> Tracker : find_closest_creek()
-activate Tracker
-Tracker --> DefaultResultAcknowledger : closest_creek
-deactivate Tracker
-DefaultResultAcknowledger --> Explorer : next_state
+DefaultResultAcknowledger -> Configurator : next_state
 deactivate DefaultResultAcknowledger
+Configurator -> Explorer : next_state
+deactivate Configurator
 
-Explorer -> Explorer : deliverFinalReport()
-Explorer --> Runner : closest_creek
-deactivate Explorer
+
+Explorer -> Configurator : deliverFinalReport
+activate Configurator
+Configurator -> Tracker : find_closest_creek()
+activate Tracker
+Tracker -> Configurator : closest_creek
+deactivate Tracker
+Configurator -> Explorer : closest_creek
+deactivate Configurator
+
+
+
 
 @enduml
