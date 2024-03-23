@@ -3,8 +3,8 @@
 participant Runner
 participant Explorer
 participant Configurator
-participant "PrimaryAlgorithm\nAlgorithmSelector" as PrimaryAlgorithm
-participant "DefaultResultAcknowledger\nResultAcknowledger" as DefaultResultAcknowledger
+participant PrimaryAlgorithm
+participant DefaultResultAcknowledger
 participant Tracker
 
 Runner -> Explorer : run()
