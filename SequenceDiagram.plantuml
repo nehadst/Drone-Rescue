@@ -4,11 +4,10 @@ participant Runner
 participant Explorer
 participant "PrimaryAlgorithm\nAlgorithmSelector" as PrimaryAlgorithm
 participant "DefaultResultAcknowledger\nResultAcknowledger" as DefaultResultAcknowledger
-
+participant Tracker
 
 Runner -> Explorer : run()
 activate Explorer
-
 
 Explorer -> Explorer : initialize()
 Explorer -> Explorer : setAlgorithm(algorithmType)
@@ -19,3 +18,17 @@ activate PrimaryAlgorithm
 PrimaryAlgorithm --> Explorer : decision
 deactivate PrimaryAlgorithm
 
+Explorer -> DefaultResultAcknowledger : executeAcknowledgement(parser, compass, theMap, tracker, drone, state, s)
+activate DefaultResultAcknowledger
+DefaultResultAcknowledger -> Tracker : find_closest_creek()
+activate Tracker
+Tracker --> DefaultResultAcknowledger : closest_creek
+deactivate Tracker
+DefaultResultAcknowledger --> Explorer : next_state
+deactivate DefaultResultAcknowledger
+
+Explorer -> Explorer : deliverFinalReport()
+Explorer --> Runner : closest_creek
+deactivate Explorer
+
+@enduml
