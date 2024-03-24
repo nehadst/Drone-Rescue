@@ -1,8 +1,32 @@
 @startuml StrategyPattern
 
-interface AlgorithmSelector
+interface AlgorithmSelector {
+    +executeAlgorithm()
+}
+
 class PrimaryAlgorithm implements AlgorithmSelector
 Explorer .right.> AlgorithmSelector
 PrimaryAlgorithm --> Location
+
+class Explorer {
+    -selectedAlgorithm: AlgorithmSelector
+    +takeDecision()
+    -setAlgorithm()
+}
+
+class PrimaryAlgorithm {
+    +newLocation: Location
+    +executeAlgorithm()
+}
+
+class Location {
+    +x: int
+    +y: int
+    +Location()
+    +update()
+    +calculate()
+    +equals()
+}
+
 
 @enduml
