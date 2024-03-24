@@ -14,6 +14,14 @@ public class Drone {
 
     private Drone() {} // Constructor
 
+    public static Drone getInstance() {
+        // Static constructor for singleton
+        if (instance == null) {
+            instance = new Drone();
+        }
+        return instance;
+    }
+
     public JSONObject turn(Heading face) {
         // (Heading) -> JSONObject
         // This method returns a JSONObject command to make the drone turn in the 
