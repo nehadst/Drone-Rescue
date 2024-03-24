@@ -49,8 +49,8 @@ public class TrackerTest {
     @Test
     public void calcDistance() {
         // dist between (0, 0) and (3, 4) should be 5
-        Location A = new Location(0, 0);
-        Location B = new Location (3, 4);
-        assertEquals(testTracker.findDistance(A, B), 5);
+        Location a = new Location(0, 0);
+        Location b = new Location (3, 4);
+        assertEquals(testTracker.findDistance(a, b), 5);
     }
 }

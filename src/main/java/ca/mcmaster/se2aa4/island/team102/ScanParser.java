@@ -10,22 +10,19 @@ public class ScanParser implements ScanParsing {
     public JSONArray getBiomes(JSONObject extraInfo) {
     // (JSONObject) -> JSONArray
     // Extracts and returns the array of biomes from the given JSON object containing scan information.    
-        JSONArray biomes = extraInfo.getJSONArray("biomes");
-        return biomes;
+        return extraInfo.getJSONArray("biomes");
     }
     @Override
     public JSONArray getCreeks(JSONObject extraInfo) {
     // (JSONObject) -> JSONArray
     // Extracts and returns the array of creek IDs from the given JSON object containing scan information.   
-        JSONArray creeks = extraInfo.getJSONArray("creeks");
-        return creeks;
+        return extraInfo.getJSONArray("creeks");
     }
     @Override
     public JSONArray getSites(JSONObject extraInfo) {
     // (JSONObject) -> JSONArray
     // Extracts and returns the array of site IDs from the given JSON object containing scan information.    
-        JSONArray sites = extraInfo.getJSONArray("sites");
-        return sites;
+        return extraInfo.getJSONArray("sites");
     }
 
 }

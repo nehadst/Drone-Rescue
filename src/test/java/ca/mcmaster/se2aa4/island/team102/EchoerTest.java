@@ -14,7 +14,7 @@ public class EchoerTest {
     public void initEchoer() {testEchoer = new Echoer();}
 
     @Test
-    public void DecideEchoSouth() {
+    public void decideEchoSouth() {
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
@@ -32,7 +32,7 @@ public class EchoerTest {
     }
 
     @Test
-    public void DecideEchoNorth() {
+    public void decideEchoNorth() {
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
@@ -50,7 +50,7 @@ public class EchoerTest {
     }
 
     @Test
-    public void DecideEchoEast() {
+    public void decideEchoEast() {
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
@@ -68,7 +68,7 @@ public class EchoerTest {
     }
 
     @Test
-    public void DecideEchoWest() {
+    public void decideEchoWest() {
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");

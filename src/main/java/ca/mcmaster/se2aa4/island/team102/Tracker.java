@@ -1,25 +1,26 @@
 package ca.mcmaster.se2aa4.island.team102;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
+import java.util.HashMap;
 
 public class Tracker {
 //Tracks identified features of interest, such as creeks and emergency sites, during exploration.    
 
     // map ID to Location
-    HashMap<String, Location> creeks = new HashMap<>();
-    HashMap<String, Location> emergency_site = new HashMap<>();
+    Map<String, Location> creeks = new HashMap<>();
+    Map<String, Location> emergency_site = new HashMap<>();
 
-    public void addCreek(String ID, Location loc) {
+    public void addCreek(String id, Location loc) {
     //(String, Location) -> void
     //Records a creek's ID and its location.    
-        creeks.put(ID, loc);
+        creeks.put(id, loc);
     }
-    public void addEmergencySite(String ID, Location loc) {
+    public void addEmergencySite(String id, Location loc) {
     //(String, Location) -> void
     //Records an emergency site's ID and its location.  
-        emergency_site.put(ID, loc);
+        emergency_site.put(id, loc);
     }
 
     public String findClosestCreek() {
@@ -54,10 +55,10 @@ public class Tracker {
 
     }
 
-    public double findDistance(Location A, Location B) {
+    public double findDistance(Location a, Location b) {
     //(Location, Location) -> double
     //Finds the distance between two locations.    
-        return Math.sqrt(((B.x - A.x) * (B.x - A.x)) + ((B.y - A.y) * (B.y - A.y)));
+        return Math.sqrt(((b.x - a.x) * (b.x - a.x)) + ((b.y - a.y) * (b.y - a.y)));
     }
 
 }

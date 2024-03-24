@@ -15,7 +15,7 @@ public class DroneTest {
     public void initDrone() {testDrone = new Drone();}
 
     @Test
-    public void DecideTurnSouth() {
+    public void decideTurnSouth() {
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "heading");
@@ -33,7 +33,7 @@ public class DroneTest {
     }
 
     @Test
-    public void DecideTurnNorth() {
+    public void decideTurnNorth() {
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "heading");
@@ -51,7 +51,7 @@ public class DroneTest {
     }
 
     @Test
-    public void DecideTurnEast() {
+    public void decideTurnEast() {
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "heading");
@@ -69,7 +69,7 @@ public class DroneTest {
     }
 
     @Test
-    public void DecideTurnWest() {
+    public void decideTurnWest() {
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "heading");
@@ -87,7 +87,7 @@ public class DroneTest {
     }
 
     @Test
-    public void DecideFlyFront() {
+    public void decideFlyFront() {
         JSONObject decision = new JSONObject();
         decision.put("action", "fly");
         
@@ -97,7 +97,7 @@ public class DroneTest {
     }
 
     @Test
-    public void DecideStop() {
+    public void decideStop() {
         JSONObject decision = new JSONObject();
         decision.put("action", "stop");
         
@@ -107,7 +107,7 @@ public class DroneTest {
     }
 
     @Test
-    public void DecideScan() {
+    public void decideScan() {
         JSONObject decision = new JSONObject();
         decision.put("action", "scan");
         
