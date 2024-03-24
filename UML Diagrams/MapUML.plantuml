@@ -1,0 +1,47 @@
+@startuml MapUML
+
+class Compass {
+    -Location loc
+    -Map<List<Heading>, Location> update_coordinates
+    +Heading heading
+    -Set<Location> visited
+    -Map<Heading, Heading> convert_to_right
+    -Map<Heading, Heading> convert_to_left
+    ~getHeading(): Heading
+    ~getLeftHeading(): Heading
+    ~getRightHeading(): Heading
+    ~newCoordinates(bestDirection: Heading): Location
+    +updateCoordinates(bestDirection: Heading): void
+    +peekCoordinates(bestDirection: Heading): Location
+    +addVisitedLocation(loc: Location): void
+    +getCoordinates(): Location
+    +alreadyVisited(newLocation: Location): boolean
+
+
+
+}
+class MapMaker {
+    ~int map_capacity
+    ~Map<Heading, JSONObject> map
+    ~Heading best_direction
+    ~String looking_for
+    ~Compass map_compass
+    +put(heading: Heading, extraInfo: JSONObject): void
+    +isStuck(): boolean
+    +choose(): void
+    +reset(): void
+    +size(): int
+}
+
+enum Heading {
+    N
+    S
+    E
+    W
+}
+
+Compass ..> Heading
+MapMaker --> Compass
+MapMaker ..> Heading
+
+@enduml
