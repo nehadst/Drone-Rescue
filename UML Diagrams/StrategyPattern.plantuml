@@ -1,0 +1,8 @@
+@startuml StrategyPattern
+
+interface AlgorithmSelector
+class PrimaryAlgorithm implements AlgorithmSelector
+Explorer .right.> AlgorithmSelector
+PrimaryAlgorithm --> Location
+
+@enduml
