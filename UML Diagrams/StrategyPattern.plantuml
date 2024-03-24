@@ -6,7 +6,7 @@ interface AlgorithmSelector {
 
 class PrimaryAlgorithm implements AlgorithmSelector
 Explorer .right.> AlgorithmSelector
-PrimaryAlgorithm --> Location
+PrimaryAlgorithm -right-> Location
 
 class Explorer {
     -selectedAlgorithm: AlgorithmSelector
