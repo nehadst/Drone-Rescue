@@ -1,0 +1,18 @@
+@startuml SingletonPattern
+
+class Drone {
+    +battery: Integer
+    +currentState: State
+    +turn()
+    +fly()
+    +stop()
+    +scan()
+}
+class Explorer {
+    - d: Drone
+}
+
+Explorer --o Drone
+Drone --* Drone 
+
+@enduml

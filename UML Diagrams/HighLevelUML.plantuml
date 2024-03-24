@@ -23,6 +23,7 @@ enum Heading
 Compass ..> Heading
 
 Drone ..> State
+Drone --* Drone
 
 Explorer --o  Echoer
 Explorer --o "1" Drone
