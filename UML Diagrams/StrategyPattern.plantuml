@@ -1,7 +1,7 @@
 @startuml StrategyPattern
 
 interface AlgorithmSelector {
-    +executeAlgorithm()
+    ~executeAlgorithm()
 }
 
 class PrimaryAlgorithm implements AlgorithmSelector

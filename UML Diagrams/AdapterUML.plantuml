@@ -1,0 +1,35 @@
+@startuml AdapterUML
+
+interface IExplorerRaid {
+    ~initialize()
+    ~takeDecision()
+    ~acknowledgeResults()
+    ~deliverFinalReport()
+}
+interface AlgorithmSelector {
+    ~executeAlgorithm()
+}
+interface ResultAcknowledger {
+    ~executeAcknowledgement()
+}
+
+class Explorer implements IExplorerRaid {
+    -parser: ScanParser
+    -selectedAlgorithm: AlgorithmSelector
+    -resultAcknowledger: ResultAcknowledger
+    +initialize()
+    +takeDecision()
+    +acknowledgeResults()
+    +deliverFinalReport()
+}
+class PrimaryAlgorithm implements AlgorithmSelector {
+    +executeAlgorithm()
+}
+class DefaultResultAcknowledger implements ResultAcknowledger {
+    +executeAcknowledgement()
+}
+
+Explorer .right.> AlgorithmSelector
+Explorer .left.> ResultAcknowledger
+
+@enduml
