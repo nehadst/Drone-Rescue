@@ -1,12 +1,10 @@
 package ca.mcmaster.se2aa4.island.team102;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.json.JSONObject;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EchoerTest {
     private Echoer testEchoer;
 

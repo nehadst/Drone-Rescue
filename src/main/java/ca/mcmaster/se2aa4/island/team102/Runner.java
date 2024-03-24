@@ -4,7 +4,7 @@ import static eu.ace_design.island.runner.Runner.run;
 
 import java.io.File;
 
-public class Runner {
+public final class Runner {
 //This class is used to run the simulation.
     private Runner() {
         throw new IllegalStateException("Utility class");
