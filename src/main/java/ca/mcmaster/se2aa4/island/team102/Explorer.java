@@ -16,7 +16,7 @@ public class Explorer implements IExplorerRaid {
     private int initial_budget;
     private MapMaker theMap;
     private Echoer echoer = new Echoer();
-    private Drone d = new Drone();
+    private Drone d = Drone.getInstance();
     private Compass compass;
     private Tracker tracker = new Tracker();
     private ScanParser parser;

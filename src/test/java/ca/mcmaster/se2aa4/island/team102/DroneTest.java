@@ -10,7 +10,7 @@ public class DroneTest {
     private Drone testDrone;
 
     @BeforeEach
-    public void initDrone() {testDrone = new Drone();}
+    public void initDrone() {testDrone = Drone.getInstance();}
 
     @Test
     public void decideTurnSouth() {
