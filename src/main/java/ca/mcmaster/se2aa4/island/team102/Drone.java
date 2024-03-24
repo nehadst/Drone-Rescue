@@ -10,6 +10,10 @@ public class Drone {
     Integer battery;
     State currentState;
 
+    private static Drone instance = null;
+
+    private Drone() {} // Constructor
+
     public JSONObject turn(Heading face) {
         // (Heading) -> JSONObject
         // This method returns a JSONObject command to make the drone turn in the 
