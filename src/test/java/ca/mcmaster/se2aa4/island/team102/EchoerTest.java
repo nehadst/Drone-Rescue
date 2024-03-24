@@ -6,13 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.json.JSONObject;
 
 public class EchoerTest {
+    // Test class for Echoer actions.
     private Echoer testEchoer;
 
     @BeforeEach
     public void initEchoer() {testEchoer = new Echoer();}
+    // () -> void
+    //This method sets up the test environment before each test by initializing an Echoer.
 
     @Test
     public void decideEchoSouth() {
+        //() -> void
+        //This test verifies that the ask method correctly generates a decision JSON for echoing south.
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
@@ -31,6 +36,8 @@ public class EchoerTest {
 
     @Test
     public void decideEchoNorth() {
+        //() -> void
+        //This test verifies that the ask method correctly generates a decision JSON for echoing north.
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
@@ -49,6 +56,8 @@ public class EchoerTest {
 
     @Test
     public void decideEchoEast() {
+        //() -> void
+        //This test verifies that the ask method correctly generates a decision JSON for echoing east.
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
@@ -67,6 +76,8 @@ public class EchoerTest {
 
     @Test
     public void decideEchoWest() {
+        //() -> void
+        //This test verifies that the ask method correctly generates a decision JSON for echoing west.
         JSONObject decision = new JSONObject();
         JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
