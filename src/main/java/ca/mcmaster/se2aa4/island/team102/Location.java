@@ -4,7 +4,8 @@ import java.util.Objects;
 
 public class Location {
     //This class is used for tracking and manipulating positions within the simulated environment.
-    public int x, y;
+    public int x;
+    public int y;
   
     public Location(int xVal, int yVal) {
     //(int, int) -> Location

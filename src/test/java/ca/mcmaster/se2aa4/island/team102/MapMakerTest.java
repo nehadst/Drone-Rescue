@@ -9,16 +9,18 @@ import org.json.JSONObject;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MapMakerTest {
     private MapMaker testMap;
-    private Compass testCompass;
 
     @BeforeEach
     public void initMap() {
-        testCompass = new Compass(Heading.E);
+        Compass testCompass = new Compass(Heading.E);
         testMap = new MapMaker(Heading.E, testCompass);
     }
 
     @Test
     public void shouldPut() {
+        Compass testCompass = new Compass(Heading.E);
+        MapMaker testMap = new MapMaker(Heading.E, testCompass);
+
         testMap.put(Heading.E, new JSONObject().put("testkey", "testvalue"));
         assertTrue(testMap.map.containsKey(Heading.E));
         JSONObject testMapValue = testMap.map.get(Heading.E);
@@ -33,7 +35,7 @@ public class MapMakerTest {
         testMap.put(Heading.E, new JSONObject().put("testkey", "testvalue"));
         testMap.put(Heading.S, new JSONObject().put("testkey", "testvalue"));
 
-        assertTrue(testMap.is_stuck());
+        assertTrue(testMap.isStuck());
     }
 
     @Test

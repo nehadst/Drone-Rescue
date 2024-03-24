@@ -5,7 +5,10 @@ import static eu.ace_design.island.runner.Runner.run;
 import java.io.File;
 
 public class Runner {
-//This class is used to run the simulation.    
+//This class is used to run the simulation.
+    private Runner() {
+        throw new IllegalStateException("Utility class");
+    }    
 
     public static void main(String[] args) {
         //(String[]) -> void

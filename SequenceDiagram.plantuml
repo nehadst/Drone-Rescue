@@ -41,14 +41,14 @@ deactivate Configurator
 
 Explorer -> Configurator : deliverFinalReport
 activate Configurator
-Configurator -> Tracker : find_closest_creek()
+Configurator -> Tracker : findCLosestCreek()
 activate Tracker
-Tracker -> Configurator : closest_creek
+Tracker -> Configurator : closestCreek
 deactivate Tracker
-Configurator -> Explorer : closest_creek
+Configurator -> Explorer : closestCreek
 deactivate Configurator
 
-Explorer -> Runner : closest_creek
+Explorer -> Runner : closestCreek
 deactivate Explorer
 deactivate Runner
 

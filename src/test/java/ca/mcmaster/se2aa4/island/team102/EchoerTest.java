@@ -14,12 +14,12 @@ public class EchoerTest {
     public void initEchoer() {testEchoer = new Echoer();}
 
     @Test
-    public void DecideEchoSouth() {
+    public void decideEchoSouth() {
         JSONObject decision = new JSONObject();
-        JSONObject extra_parameters = new JSONObject();
+        JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
-        extra_parameters.put("direction", Heading.S);
-        decision.put("parameters", extra_parameters);
+        extraParameters.put("direction", Heading.S);
+        decision.put("parameters", extraParameters);
         
         JSONObject testDecision = testEchoer.ask(Heading.S);
 
@@ -32,12 +32,12 @@ public class EchoerTest {
     }
 
     @Test
-    public void DecideEchoNorth() {
+    public void decideEchoNorth() {
         JSONObject decision = new JSONObject();
-        JSONObject extra_parameters = new JSONObject();
+        JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
-        extra_parameters.put("direction", Heading.N);
-        decision.put("parameters", extra_parameters);
+        extraParameters.put("direction", Heading.N);
+        decision.put("parameters", extraParameters);
         
         JSONObject testDecision = testEchoer.ask(Heading.N);
 
@@ -50,12 +50,12 @@ public class EchoerTest {
     }
 
     @Test
-    public void DecideEchoEast() {
+    public void decideEchoEast() {
         JSONObject decision = new JSONObject();
-        JSONObject extra_parameters = new JSONObject();
+        JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
-        extra_parameters.put("direction", Heading.E);
-        decision.put("parameters", extra_parameters);
+        extraParameters.put("direction", Heading.E);
+        decision.put("parameters", extraParameters);
         
         JSONObject testDecision = testEchoer.ask(Heading.E);
 
@@ -68,12 +68,12 @@ public class EchoerTest {
     }
 
     @Test
-    public void DecideEchoWest() {
+    public void decideEchoWest() {
         JSONObject decision = new JSONObject();
-        JSONObject extra_parameters = new JSONObject();
+        JSONObject extraParameters = new JSONObject();
         decision.put("action", "echo");
-        extra_parameters.put("direction", Heading.W);
-        decision.put("parameters", extra_parameters);
+        extraParameters.put("direction", Heading.W);
+        decision.put("parameters", extraParameters);
         
         JSONObject testDecision = testEchoer.ask(Heading.W);
 

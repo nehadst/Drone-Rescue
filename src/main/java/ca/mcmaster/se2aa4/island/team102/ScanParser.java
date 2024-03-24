@@ -7,25 +7,22 @@ import org.json.JSONObject;
 public class ScanParser implements ScanParsing {
 //Parses scanning results from JSON objects to extract specific information.    
     @Override
-    public JSONArray get_biomes(JSONObject extraInfo) {
+    public JSONArray getBiomes(JSONObject extraInfo) {
     // (JSONObject) -> JSONArray
     // Extracts and returns the array of biomes from the given JSON object containing scan information.    
-        JSONArray biomes = extraInfo.getJSONArray("biomes");
-        return biomes;
+        return extraInfo.getJSONArray("biomes");
     }
     @Override
-    public JSONArray get_creeks(JSONObject extraInfo) {
+    public JSONArray getCreeks(JSONObject extraInfo) {
     // (JSONObject) -> JSONArray
     // Extracts and returns the array of creek IDs from the given JSON object containing scan information.   
-        JSONArray creeks = extraInfo.getJSONArray("creeks");
-        return creeks;
+        return extraInfo.getJSONArray("creeks");
     }
     @Override
-    public JSONArray get_sites(JSONObject extraInfo) {
+    public JSONArray getSites(JSONObject extraInfo) {
     // (JSONObject) -> JSONArray
     // Extracts and returns the array of site IDs from the given JSON object containing scan information.    
-        JSONArray sites = extraInfo.getJSONArray("sites");
-        return sites;
+        return extraInfo.getJSONArray("sites");
     }
 
 }

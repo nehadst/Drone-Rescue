@@ -20,14 +20,14 @@ public class MapMaker {
         map.put(heading, extraInfo);
     }
 
-    public MapMaker (Heading initial_heading, Compass compass) {
+    public MapMaker (Heading initialHeading, Compass compass) {
     //(Heading, Compass) -> MapMaker
-    //Initializes a MapMaker with initial_heading and compass.    
-        this.best_direction = initial_heading;
+    //Initializes a MapMaker with initialHeading and compass.    
+        this.best_direction = initialHeading;
         this.map_compass = compass;
     }
 
-    public boolean is_stuck() {
+    public boolean isStuck() {
     //() -> boolean
     //Determines if the current state is stuck based on visited locations and map information.    
         List<Heading> keys = new ArrayList<>(map.keySet());
@@ -46,7 +46,7 @@ public class MapMaker {
     //Chooses the next best direction based on map information. Throws Exception if stuck.    
         List<Heading> keys = new ArrayList<>(map.keySet());
 
-        if (this.is_stuck()) {
+        if (this.isStuck()) {
             throw new Exception("STUCK");
         }
 

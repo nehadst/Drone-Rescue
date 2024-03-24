@@ -44,15 +44,16 @@ public class PrimaryAlgorithm implements AlgorithmSelector{
                 }
                 
                 compass.updateCoordinates(theMap.best_direction);
-                Location new_location = compass.getCoordinates();
+                Location newLocation = compass.getCoordinates();
                 
                 // double check if we have landed on an already visited spot
-                logger.info("The drone has moved to coordinates {} {}", new_location.x, new_location.y);
-                if (compass.alreadyVisited(new_location)) {
+                if (logger.isInfoEnabled()){
+                    logger.info("The drone has moved to coordinates {} {}", newLocation.x, newLocation.y);}
+                if (compass.alreadyVisited(newLocation)) {
                     logger.info("The drone has already visited these coordinates");  
                     // theMap.looking_for = "OUT_OF_RANGE";
                 } else {
-                    compass.addVisitedLocation(new_location);
+                    compass.addVisitedLocation(newLocation);
                     // theMap.looking_for = "GROUND";
                 }
                 break;
