@@ -12,7 +12,7 @@ class Explorer {
     - d: Drone
 }
 
-Explorer --o Drone
+Explorer -right-o Drone
 Drone --* Drone 
 
 @enduml
