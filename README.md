@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/OY6OZuzi)
 # [A2] Island ca.mcmaster.se2aa4.island.team102.Explorer
 
@@ -58,3 +59,6 @@ It creates three files in the `outputs` directory:
 Each week, you'll have to `tag` the version you want to submit for the competition. This version will be used in the weekly run. No tag means no competition.
 
 The tag syntax is `wX`, with `X` the week number. So your product for the first week will be tagged `w1`.
+=======
+# Drone-Rescue
+>>>>>>> 47ef169d25f7e228b571dca362ec1cc84b2608dd
